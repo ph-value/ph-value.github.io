@@ -1,0 +1,25 @@
+title: pH value's Blog
+description: ph-value's github.io blog
+
+url: http://ph-value.github.com/
+baseurl: ""
+paginate_path: "blog/page:num/"
+permalink: blog/:title/
+
+markdown: kramdown
+highlighter: rouge
+gems: [jekyll-paginate]
+paginate: 5
+
+navigation:
+ - title: Home
+   url: /index.html
+ - title: About
+   url: /about
+
+social:
+   github: ph-value
+   twitter: purple_0x48
+   email: phvalue123@gmail.com
+
+google_analytics: "UA-114293240-1"
