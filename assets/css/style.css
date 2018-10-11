@@ -198,7 +198,7 @@ h4,
 h5,
 h6 {
   margin: 0.5rem 0 1.5rem;
-  font-family: Open Sans;
+  font-family: Open Sans,'Noto Sans KR', sans-serif;
 }
 .h1,
 h1 {
@@ -299,7 +299,7 @@ blockquote {
   background-color: #9933ff;
   display: inline-block;
   position: relative;
-  font-family: Open Sans;
+  font-family: Open Sans,'Noto Sans KR', sans-serif;
   text-decoration: none;
   color: #fff;
   font-size: 1em;
@@ -569,7 +569,7 @@ html {
   box-sizing: inherit;
 }
 body {
-  font-family: Open Sans;
+  font-family: Open Sans,'Noto Sans KR', sans-serif;
   line-height: 1.75;
   font-size: 112.5%;
   color: #111;
@@ -708,7 +708,7 @@ dd {
   padding-left: 2rem;
   font-size: 1em;
   line-height: 3em;
-  font-family: Open Sans;
+  font-family: Open Sans,'Noto Sans KR', sans-serif;
   font-weight: 800;
   text-transform: uppercase;
 }
@@ -747,7 +747,7 @@ dd {
 .post .meta {
   text-align: center;
   color: gray;
-  font-family: Open Sans;
+  font-family: Open Sans,'Noto Sans KR', sans-serif;
   font-weight: 300;
 }
 .post figure {
@@ -793,7 +793,7 @@ dd {
   height: 5rem;
   overflow: hidden;
   position: relative;
-  font-family: Open Sans;
+  font-family: Open Sans,'Noto Sans KR', sans-serif;
   font-weight: 800;
   font-size: 0.9em;
   text-transform: uppercase;
@@ -913,7 +913,7 @@ dd {
 }
 .posts li .date {
   color: gray;
-  font-family: Open Sans;
+  font-family: Open Sans,'Noto Sans KR', sans-serif;
   font-weight: 300;
   font-size: 0.8em;
 }
