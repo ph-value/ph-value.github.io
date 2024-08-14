@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - main  # main 브랜치에 푸시될 때 실행
+    paths-ignore:
+      - 'post/**'
   workflow_dispatch: # 수동으로도 실행 가능
 
 jobs:

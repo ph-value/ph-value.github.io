@@ -3,7 +3,8 @@ name: Fetch Files
 on:
   push:
     paths:
-      - 'posts/**'
+      - 'post/**'
+  workflow_dispatch: # 수동으로도 실행 가능
 
 jobs:
   fetch_and_trigger:
