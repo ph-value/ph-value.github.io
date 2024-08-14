@@ -91,8 +91,6 @@ class _BlogPostListState extends State<BlogPostList> {
                             Text(frontMatter['title'] ?? files[index]['name']),
                         subtitle: Text(frontMatter['date'] ?? 'No date'),
                         onTap: () {
-                          print(
-                              "files[index]['content']: ${files[index]['content']}");
                           if (files[index]['content'] != null) {
                             setState(() {
                               isShowPostDetail = true;
