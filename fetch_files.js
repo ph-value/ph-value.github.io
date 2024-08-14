@@ -52,7 +52,7 @@ axios.get(url, {
     }
   }
 
-  const outputPath = path.join(__dirname, 'post', 'files.json');
+  const outputPath = path.join(__dirname, 'post_files.json');
 
   // 디렉토리가 없으면 생성
   const dir = path.dirname(outputPath);

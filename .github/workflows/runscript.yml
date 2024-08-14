@@ -4,8 +4,6 @@ on:
   push:
     paths:
       - 'post/**'
-    paths-ignore:
-      - 'post/files.json'
   workflow_dispatch: # 수동으로도 실행 가능
 
 jobs:
@@ -31,11 +29,11 @@ jobs:
         run: |
           git config --local user.name "GitHub Actions"
           git config --local user.email "actions@github.com"
-          git add post/files.json
-          git commit -m "Update files.json with the latest post data"
+          git add post_files.json
+          git commit -m "Update post_files.json with the latest post data"
           git push
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Trigger Build Workflow
         uses: actions/github-script@v6

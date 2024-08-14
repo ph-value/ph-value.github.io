@@ -21,9 +21,25 @@ class _BlogPostListState extends State<BlogPostList> {
     futureFiles = _loadPosts();
   }
 
+  // final String repoUrl = "https://raw.githubusercontent.com/ph-value/ph-value.github.io/main/post/files.json";
+  //
+  // Future<List<Map<String, dynamic>>> _loadPosts() async {
+  //   final response = await http.get(
+  //     Uri.parse(repoUrl),
+  //   );
+  //
+  //   if (response.statusCode == 200) {
+  //     List<dynamic> jsonData = json.decode(response.body);
+  //
+  //     return jsonData.map((data) => Map<String, dynamic>.from(data)).toList();
+  //   } else {
+  //     throw Exception('Failed to load JSON');
+  //   }
+  // }
+
   Future<List<Map<String, dynamic>>> _loadPosts() async {
     // JSON 파일 읽기
-    final jsonString = await rootBundle.loadString('post/files.json');
+    final jsonString = await rootBundle.loadString('post_files.json');
     final List<dynamic> jsonData = json.decode(jsonString);
 
     // 데이터를 리스트로 변환
