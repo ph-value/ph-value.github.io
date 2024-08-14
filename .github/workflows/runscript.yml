@@ -29,6 +29,7 @@ jobs:
         run: |
           git config --local user.name "GitHub Actions"
           git config --local user.email "actions@github.com"
+          git restore package-lock.json
           git add post_files.json
           git commit -m "Update post_files.json with the latest post data"
           git push
