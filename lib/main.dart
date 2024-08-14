@@ -1,10 +1,24 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:sando_diary/markdownpage.dart';
+import 'package:sando_diary/BlogPostList.dart';
 
 import 'firebase_options.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
+
+Future<void> signInAnonymously() async {
+  try {
+    await FirebaseAuth.instance.signInAnonymously();
+  } catch (e) {
+    print('Failed to sign in anonymously: $e');
+  }
+}
 
 Future<void> main() async {
+
+  // WidgetsFlutterBinding.ensureInitialized();
+  // await Firebase.initializeApp();
+  // await signInAnonymously();
 
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
@@ -19,7 +33,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       routes: {
-        '/markdownpage': (context) => MarkdownPage(),
+        // '/markdownpage': (context) => MarkdownPage(data: '',),
       },
       home: CustomAppBarScreenTest(),
     );
@@ -73,19 +87,6 @@ class _CustomAppBarScreenState extends State<CustomAppBarScreenTest> {
 
               Container(), // Required some widget in between to float AppBar
 
-              // Positioned(
-              //   // To take AppBar Size only
-              //   top: 80.0,
-              //   left: 20.0,
-              //   right: 20.0,
-              //   child: AppBar(
-              //     backgroundColor: Colors.white,
-              //     shadowColor: Colors.white30,
-              //     scrolledUnderElevation: 0,
-              //     primary: false,
-              //   ),
-              // ),
-
               Positioned(
                   top: 80.0,
                   left: 20.0,
@@ -109,7 +110,7 @@ class _CustomAppBarScreenState extends State<CustomAppBarScreenTest> {
                           color: Colors.purple,
                           width: 80,
                           height: _selectedIndex == 0 ? height + 40 : (height / 2) + 40,
-                          child: Center(child: Text("aaaa")),
+                          child: Center(child: Text("Posts")),
                         ),
                       ),
                       SizedBox(width: 10),
@@ -119,7 +120,7 @@ class _CustomAppBarScreenState extends State<CustomAppBarScreenTest> {
                           color: Colors.orange,
                           width: 80,
                           height: _selectedIndex == 1 ? height + 40 : (height / 2) + 40,
-                          child: Center(child: Text("aaaa")),
+                          child: Center(child: Text("Projects")),
                         ),
                       ),
                       SizedBox(width: 10),
@@ -129,7 +130,7 @@ class _CustomAppBarScreenState extends State<CustomAppBarScreenTest> {
                           color: Colors.yellow,
                           width: 80,
                           height: _selectedIndex == 2 ? height + 40 : (height / 2) + 40,
-                          child: Center(child: Text("aaaa")),
+                          child: Center(child: Text("About")),
                         ),
                       ),
                       SizedBox(width: 10),
@@ -139,7 +140,7 @@ class _CustomAppBarScreenState extends State<CustomAppBarScreenTest> {
                           color: Colors.green,
                           width: 80,
                           height: _selectedIndex == 3 ? height + 40 : (height / 2) + 40,
-                          child: Center(child: Text("aaaa")),
+                          child: Center(child: Text("GuestBook")),
                         ),
                       ),
                     ],
@@ -162,7 +163,8 @@ class _CustomAppBarScreenState extends State<CustomAppBarScreenTest> {
 class Page1 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MarkdownPage();
+    // return MarkdownPage(data: '');
+    return BlogPostList();
   }
 }
 
