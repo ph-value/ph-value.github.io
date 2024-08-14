@@ -1,5 +1,5 @@
 import 'dart:convert';
-
+import 'dart:html' as html;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:markdown_widget/markdown_widget.dart';
@@ -42,12 +42,16 @@ class _BlogPostListState extends State<BlogPostList> {
               decoration: TextDecoration.underline,
             ),
             onTap: (url) {
-              ///TODO:on tap
+              _launchURLInNewTab(url);
             },
           )
         ]),
       ),
     );
+  }
+
+  void _launchURLInNewTab(String url) {
+    html.window.open(url, '_blank');
   }
 
   @override
