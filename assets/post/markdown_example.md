@@ -1,13 +1,7 @@
 ---
-__Advertisement :)__
-
-- __[pica](https://nodeca.github.io/pica/demo/)__ - high quality and fast image
-  resize in browser.
-- __[babelfish](https://github.com/nodeca/babelfish/)__ - developer friendly
-  i18n with plurals support and easy syntax.
-
-You will like those projects!
-
+title: 예제 마크다운 Test...!
+date: 2024-08-14
+category: Test
 ---
 
 # h1 Heading 8-)
