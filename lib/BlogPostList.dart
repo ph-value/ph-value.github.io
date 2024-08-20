@@ -19,6 +19,19 @@ class _BlogPostListState extends State<BlogPostList> {
   void initState() {
     super.initState();
     futureFiles = _loadPosts();
+
+    // URL에서 name 값을 읽어와서 포스트를 로드
+    final uri = Uri.base;
+    if (uri.pathSegments.isNotEmpty && uri.pathSegments.last.isNotEmpty) {
+      final postName = uri.pathSegments.last;
+      _loadPosts().then((posts) {
+        final post = posts.firstWhere((p) => p.name == postName, orElse: () => posts[0]);
+        setState(() {
+          isShowPostDetail = true;
+          currentPost = post;
+        });
+      });
+    }
   }
 
   Future<List<BlogPost>> _loadPosts() async {
@@ -28,6 +41,17 @@ class _BlogPostListState extends State<BlogPostList> {
 
     // 데이터를 리스트로 변환
     return jsonData.map((data) => BlogPost.fromJson(data)).toList();
+  }
+
+  void _navigateToPost(String postName) {
+    // URL 변경
+    html.window.history.pushState(null, 'Post', '/$postName');
+
+    // 포스트 상세 페이지 표시
+    setState(() {
+      currentPost = currentPost;  // 이름 기반 포스트 설정
+      isShowPostDetail = true;
+    });
   }
 
   Widget _postDetail(BlogPost currentPost) {
@@ -79,6 +103,7 @@ class _BlogPostListState extends State<BlogPostList> {
               leading: BackButton(
                 onPressed: () => setState(() {
                   isShowPostDetail = false;
+                  html.window.history.pushState(null, 'Posts', '/');
                 }),
               ),
             ),
@@ -103,6 +128,7 @@ class _BlogPostListState extends State<BlogPostList> {
                           setState(() {
                             isShowPostDetail = true;
                             currentPost = post;
+                            _navigateToPost(post.name);
                           });
                         },
                       );
