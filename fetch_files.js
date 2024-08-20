@@ -44,7 +44,6 @@ axios.get(url, {
 
       files.push({
         name: file.name,
-        path: file.path,
         download_url: file.download_url,
         frontMatter: frontMatter,
         content: bodyContent,
