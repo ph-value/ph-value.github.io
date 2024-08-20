@@ -25,7 +25,8 @@ class _BlogPostListState extends State<BlogPostList> {
     if (uri.pathSegments.isNotEmpty && uri.pathSegments.last.isNotEmpty) {
       final postName = uri.pathSegments.last;
       _loadPosts().then((posts) {
-        final post = posts.firstWhere((p) => p.name == postName, orElse: () => posts[0]);
+        final post =
+            posts.firstWhere((p) => p.name == postName, orElse: () => posts[0]);
         setState(() {
           isShowPostDetail = true;
           currentPost = post;
@@ -49,9 +50,18 @@ class _BlogPostListState extends State<BlogPostList> {
 
     // 포스트 상세 페이지 표시
     setState(() {
-      currentPost = currentPost;  // 이름 기반 포스트 설정
+      currentPost = currentPost; // 이름 기반 포스트 설정
       isShowPostDetail = true;
     });
+  }
+
+  void _copyCurrentPostUrlToClipboard() {
+    final currentUrl = html.window.location.href; // 현재 페이지의 URL 가져오기
+    Clipboard.setData(ClipboardData(text: currentUrl)); // URL을 클립보드에 복사
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('URL copied to clipboard!')),
+    );
   }
 
   Widget _postDetail(BlogPost currentPost) {
@@ -106,6 +116,13 @@ class _BlogPostListState extends State<BlogPostList> {
                   html.window.history.pushState(null, 'Posts', '/');
                 }),
               ),
+              actions: [
+                IconButton(
+                  icon: const Icon(Icons.share),
+                  tooltip: 'Share this Post',
+                  onPressed: _copyCurrentPostUrlToClipboard,
+                ),
+              ],
             ),
       body: !isShowPostDetail
           ? FutureBuilder<List<BlogPost>>(
