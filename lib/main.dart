@@ -30,9 +30,6 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      routes: {
-        // '/markdownpage': (context) => MarkdownPage(data: '',),
-      },
       home: CustomAppBarScreenTest(),
     );
   }
@@ -111,6 +108,10 @@ class _CustomAppBarScreenState extends State<CustomAppBarScreenTest> {
                           height: _selectedIndex == 0
                               ? height + 40
                               : (height / 2) + 40,
+                          decoration: BoxDecoration(
+                            color: const Color(0xFF9581f5),
+                            border: Border.all(width: 1, color: Colors.black),
+                          ),
                           child: Stack(
                             alignment: Alignment.bottomCenter,
                             children: [
@@ -126,10 +127,6 @@ class _CustomAppBarScreenState extends State<CustomAppBarScreenTest> {
                               )
                             ],
                           ),
-                          decoration: BoxDecoration(
-                            color: const Color(0xFF9581f5),
-                            border: Border.all(width: 1, color: Colors.black),
-                          ),
                         ),
                       ),
                       SizedBox(width: 10),
@@ -140,6 +137,10 @@ class _CustomAppBarScreenState extends State<CustomAppBarScreenTest> {
                           height: _selectedIndex == 1
                               ? height + 40
                               : (height / 2) + 40,
+                          decoration: BoxDecoration(
+                            color: const Color(0xFF75F8AE),
+                            border: Border.all(width: 1, color: Colors.black),
+                          ),
                           child: Stack(
                             alignment: Alignment.bottomCenter,
                             children: [
@@ -153,10 +154,6 @@ class _CustomAppBarScreenState extends State<CustomAppBarScreenTest> {
                               )
                             ],
                           ),
-                          decoration: BoxDecoration(
-                            color: const Color(0xFF75F8AE),
-                            border: Border.all(width: 1, color: Colors.black),
-                          ),
                         ),
                       ),
                       SizedBox(width: 10),
@@ -167,6 +164,10 @@ class _CustomAppBarScreenState extends State<CustomAppBarScreenTest> {
                           height: _selectedIndex == 2
                               ? height + 40
                               : (height / 2) + 40,
+                          decoration: BoxDecoration(
+                            color: const Color(0xFFE1F970),
+                            border: Border.all(width: 1, color: Colors.black),
+                          ),
                           child: Stack(
                             alignment: Alignment.bottomCenter,
                             children: [
@@ -180,10 +181,6 @@ class _CustomAppBarScreenState extends State<CustomAppBarScreenTest> {
                               )
                             ],
                           ),
-                          decoration: BoxDecoration(
-                            color: const Color(0xFFE1F970),
-                            border: Border.all(width: 1, color: Colors.black),
-                          ),
                         ),
                       ),
                       SizedBox(width: 10),
@@ -194,6 +191,10 @@ class _CustomAppBarScreenState extends State<CustomAppBarScreenTest> {
                           height: _selectedIndex == 3
                               ? height + 40
                               : (height / 2) + 40,
+                          decoration: BoxDecoration(
+                            color: const Color(0xFF99D6F9),
+                            border: Border.all(width: 1, color: Colors.black),
+                          ),
                           child: Stack(
                             alignment: Alignment.bottomCenter,
                             children: [
@@ -206,10 +207,6 @@ class _CustomAppBarScreenState extends State<CustomAppBarScreenTest> {
                                 ),
                               )
                             ],
-                          ),
-                          decoration: BoxDecoration(
-                            color: const Color(0xFF99D6F9),
-                            border: Border.all(width: 1, color: Colors.black),
                           ),
                         ),
                       ),
@@ -292,29 +289,23 @@ class _CustomAppBarScreenState extends State<CustomAppBarScreenTest> {
                                 border:
                                     Border.all(width: 1, color: Colors.black),
                               ),
-                              child: Expanded(
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.max,
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.all(12.0),
-                                      child: Flexible(
-                                          flex: 1, child: Icon(Icons.list)),
-                                    ),
-                                    Expanded(
-                                        child: Container(
-                                            color: const Color(0xFFAA9AF7),
-                                            padding: const EdgeInsets.all(12.0),
-                                            child: Text('Posts'))),
-                                  ],
-                                ),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.max,
+                                children: [
+                                  const Padding(
+                                    padding: EdgeInsets.all(12.0),
+                                    child: Icon(Icons.list),
+                                  ),
+                                  Expanded(
+                                    child: Container(
+                                        color: const Color(0xFFAA9AF7),
+                                        padding: const EdgeInsets.all(12),
+                                        child: Text('Posts')),
+                                  ),
+                                ],
                               )),
                         ),
-                        SizedBox(
-                          height: 5,
-                        ),
+                        const SizedBox(height: 5),
                         GestureDetector(
                           onTap: () {
                             _onItemTapped(1, "Projects");
@@ -329,8 +320,8 @@ class _CustomAppBarScreenState extends State<CustomAppBarScreenTest> {
                               child: Row(
                                 mainAxisSize: MainAxisSize.max,
                                 children: [
-                                  Padding(
-                                    padding: const EdgeInsets.all(12.0),
+                                  const Padding(
+                                    padding: EdgeInsets.all(12.0),
                                     child: Flexible(
                                         flex: 1,
                                         child: Icon(Icons.book_outlined)),
@@ -343,9 +334,7 @@ class _CustomAppBarScreenState extends State<CustomAppBarScreenTest> {
                                 ],
                               )),
                         ),
-                        SizedBox(
-                          height: 5,
-                        ),
+                        const SizedBox(height: 5),
                         GestureDetector(
                           onTap: () {
                             _onItemTapped(2, "About");
@@ -360,8 +349,8 @@ class _CustomAppBarScreenState extends State<CustomAppBarScreenTest> {
                               child: Row(
                                 mainAxisSize: MainAxisSize.max,
                                 children: [
-                                  Padding(
-                                    padding: const EdgeInsets.all(12.0),
+                                  const Padding(
+                                    padding: EdgeInsets.all(12.0),
                                     child: Flexible(
                                         flex: 1,
                                         child:
@@ -375,9 +364,7 @@ class _CustomAppBarScreenState extends State<CustomAppBarScreenTest> {
                                 ],
                               )),
                         ),
-                        SizedBox(
-                          height: 5,
-                        ),
+                        const SizedBox(height: 5),
                         GestureDetector(
                           onTap: () {
                             _onItemTapped(3, "GuestBook");
@@ -392,8 +379,8 @@ class _CustomAppBarScreenState extends State<CustomAppBarScreenTest> {
                               child: Row(
                                 mainAxisSize: MainAxisSize.max,
                                 children: [
-                                  Padding(
-                                    padding: const EdgeInsets.all(12.0),
+                                  const Padding(
+                                    padding: EdgeInsets.all(12.0),
                                     child: Flexible(
                                         flex: 1,
                                         child: Icon(Icons.edit_outlined)),
@@ -466,44 +453,6 @@ class Page4 extends StatelessWidget {
       child: Text(
         'Page 4',
         style: TextStyle(fontSize: 24),
-      ),
-    );
-  }
-}
-
-class ResponsiveLayout extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        Navigator.of(context).pushNamed('/markdownpage');
-      },
-      child: LayoutBuilder(
-        builder: (context, constraints) {
-          if (constraints.maxWidth < 600) {
-            return Column(
-              children: [
-                Container(
-                    color: Colors.red, height: 100, width: double.infinity),
-                Container(
-                    color: Colors.blue, height: 100, width: double.infinity),
-              ],
-            );
-          } else {
-            return Row(
-              children: [
-                Container(
-                    color: Colors.red,
-                    height: 100,
-                    width: constraints.maxWidth / 2),
-                Container(
-                    color: Colors.blue,
-                    height: 100,
-                    width: constraints.maxWidth / 2),
-              ],
-            );
-          }
-        },
       ),
     );
   }
