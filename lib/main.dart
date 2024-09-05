@@ -111,8 +111,20 @@ class _CustomAppBarScreenState extends State<CustomAppBarScreenTest> {
                           height: _selectedIndex == 0
                               ? height + 40
                               : (height / 2) + 40,
-                          child: Center(
-                            child: Text("Posts"),
+                          child: Stack(
+                            alignment: Alignment.bottomCenter,
+                            children: [
+                              Center(
+                                child: Text("Posts"),
+                              ),
+                              Visibility(
+                                visible: _selectedIndex == 0 ? true : false,
+                                child: Container(
+                                  height: 25,
+                                  color: const Color(0xFFAA9AF7),
+                                ),
+                              )
+                            ],
                           ),
                           decoration: BoxDecoration(
                             color: const Color(0xFF9581f5),
@@ -128,7 +140,19 @@ class _CustomAppBarScreenState extends State<CustomAppBarScreenTest> {
                           height: _selectedIndex == 1
                               ? height + 40
                               : (height / 2) + 40,
-                          child: Center(child: Text("Projects")),
+                          child: Stack(
+                            alignment: Alignment.bottomCenter,
+                            children: [
+                              Center(child: Text("Projects")),
+                              Visibility(
+                                visible: _selectedIndex == 1 ? true : false,
+                                child: Container(
+                                  height: 25,
+                                  color: const Color(0xFF90F9BE),
+                                ),
+                              )
+                            ],
+                          ),
                           decoration: BoxDecoration(
                             color: const Color(0xFF75F8AE),
                             border: Border.all(width: 1, color: Colors.black),
@@ -143,7 +167,19 @@ class _CustomAppBarScreenState extends State<CustomAppBarScreenTest> {
                           height: _selectedIndex == 2
                               ? height + 40
                               : (height / 2) + 40,
-                          child: Center(child: Text("About")),
+                          child: Stack(
+                            alignment: Alignment.bottomCenter,
+                            children: [
+                              Center(child: Text("About")),
+                              Visibility(
+                                visible: _selectedIndex == 2 ? true : false,
+                                child: Container(
+                                  height: 25,
+                                  color: const Color(0xFFE7FA8C),
+                                ),
+                              )
+                            ],
+                          ),
                           decoration: BoxDecoration(
                             color: const Color(0xFFE1F970),
                             border: Border.all(width: 1, color: Colors.black),
@@ -158,7 +194,19 @@ class _CustomAppBarScreenState extends State<CustomAppBarScreenTest> {
                           height: _selectedIndex == 3
                               ? height + 40
                               : (height / 2) + 40,
-                          child: Center(child: Text("GuestBook")),
+                          child: Stack(
+                            alignment: Alignment.bottomCenter,
+                            children: [
+                              Center(child: Text("GuestBook")),
+                              Visibility(
+                                visible: _selectedIndex == 3 ? true : false,
+                                child: Container(
+                                  height: 25,
+                                  color: const Color(0xFFADDEFA),
+                                ),
+                              )
+                            ],
+                          ),
                           decoration: BoxDecoration(
                             color: const Color(0xFF99D6F9),
                             border: Border.all(width: 1, color: Colors.black),
@@ -244,15 +292,22 @@ class _CustomAppBarScreenState extends State<CustomAppBarScreenTest> {
                                 border:
                                     Border.all(width: 1, color: Colors.black),
                               ),
-                              child: Padding(
-                                padding: const EdgeInsets.all(12.0),
+                              child: Expanded(
                                 child: Row(
+                                  mainAxisSize: MainAxisSize.max,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
                                   children: [
-                                    Flexible(flex: 1, child: Icon(Icons.list)),
-                                    SizedBox(
-                                      width: 10,
+                                    Padding(
+                                      padding: const EdgeInsets.all(12.0),
+                                      child: Flexible(
+                                          flex: 1, child: Icon(Icons.list)),
                                     ),
-                                    Flexible(flex: 9, child: Text('Posts')),
+                                    Expanded(
+                                        child: Container(
+                                            color: const Color(0xFFAA9AF7),
+                                            padding: const EdgeInsets.all(12.0),
+                                            child: Text('Posts'))),
                                   ],
                                 ),
                               )),
@@ -271,19 +326,21 @@ class _CustomAppBarScreenState extends State<CustomAppBarScreenTest> {
                                 border:
                                     Border.all(width: 1, color: Colors.black),
                               ),
-                              child: Padding(
-                                padding: const EdgeInsets.all(12.0),
-                                child: Row(
-                                  children: [
-                                    Flexible(
+                              child: Row(
+                                mainAxisSize: MainAxisSize.max,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.all(12.0),
+                                    child: Flexible(
                                         flex: 1,
                                         child: Icon(Icons.book_outlined)),
-                                    SizedBox(
-                                      width: 10,
-                                    ),
-                                    Flexible(flex: 9, child: Text('Projects')),
-                                  ],
-                                ),
+                                  ),
+                                  Expanded(
+                                      child: Container(
+                                          color: const Color(0xFF90F9BE),
+                                          padding: const EdgeInsets.all(12.0),
+                                          child: Text('Projects'))),
+                                ],
                               )),
                         ),
                         SizedBox(
@@ -300,19 +357,22 @@ class _CustomAppBarScreenState extends State<CustomAppBarScreenTest> {
                                 border:
                                     Border.all(width: 1, color: Colors.black),
                               ),
-                              child: Padding(
-                                padding: const EdgeInsets.all(12.0),
-                                child: Row(
-                                  children: [
-                                    Flexible(
+                              child: Row(
+                                mainAxisSize: MainAxisSize.max,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.all(12.0),
+                                    child: Flexible(
                                         flex: 1,
-                                        child: Icon(Icons.account_box_outlined)),
-                                    SizedBox(
-                                      width: 10,
-                                    ),
-                                    Flexible(flex: 9, child: Text('About')),
-                                  ],
-                                ),
+                                        child:
+                                            Icon(Icons.account_box_outlined)),
+                                  ),
+                                  Expanded(
+                                      child: Container(
+                                          color: const Color(0xFFE7FA8C),
+                                          padding: const EdgeInsets.all(12.0),
+                                          child: Text('About'))),
+                                ],
                               )),
                         ),
                         SizedBox(
@@ -329,17 +389,21 @@ class _CustomAppBarScreenState extends State<CustomAppBarScreenTest> {
                                 border:
                                     Border.all(width: 1, color: Colors.black),
                               ),
-                              child: Padding(
-                                padding: const EdgeInsets.all(12.0),
-                                child: Row(
-                                  children: [
-                                    Flexible(flex: 1, child: Icon(Icons.edit_outlined)),
-                                    SizedBox(
-                                      width: 10,
-                                    ),
-                                    Flexible(flex: 9, child: Text('GuestBook')),
-                                  ],
-                                ),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.max,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.all(12.0),
+                                    child: Flexible(
+                                        flex: 1,
+                                        child: Icon(Icons.edit_outlined)),
+                                  ),
+                                  Expanded(
+                                      child: Container(
+                                          color: const Color(0xFFADDEFA),
+                                          padding: const EdgeInsets.all(12.0),
+                                          child: Text('GuestBook'))),
+                                ],
                               )),
                         ),
                       ],
