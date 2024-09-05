@@ -322,9 +322,7 @@ class _CustomAppBarScreenState extends State<CustomAppBarScreenTest> {
                                 children: [
                                   const Padding(
                                     padding: EdgeInsets.all(12.0),
-                                    child: Flexible(
-                                        flex: 1,
-                                        child: Icon(Icons.book_outlined)),
+                                    child: Icon(Icons.book_outlined),
                                   ),
                                   Expanded(
                                       child: Container(
@@ -351,10 +349,7 @@ class _CustomAppBarScreenState extends State<CustomAppBarScreenTest> {
                                 children: [
                                   const Padding(
                                     padding: EdgeInsets.all(12.0),
-                                    child: Flexible(
-                                        flex: 1,
-                                        child:
-                                            Icon(Icons.account_box_outlined)),
+                                    child: Icon(Icons.account_box_outlined),
                                   ),
                                   Expanded(
                                       child: Container(
@@ -381,9 +376,7 @@ class _CustomAppBarScreenState extends State<CustomAppBarScreenTest> {
                                 children: [
                                   const Padding(
                                     padding: EdgeInsets.all(12.0),
-                                    child: Flexible(
-                                        flex: 1,
-                                        child: Icon(Icons.edit_outlined)),
+                                    child: Icon(Icons.edit_outlined),
                                   ),
                                   Expanded(
                                       child: Container(
