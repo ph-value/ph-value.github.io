@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:sando_diary/BlogPostList.dart';
 import 'package:sando_diary/customDecoration.dart';
+import 'package:sando_diary/guestBookPage.dart';
 import 'package:sando_diary/projectPage.dart';
 
 import 'firebase_options.dart';
@@ -17,13 +17,11 @@ Future<void> signInAnonymously() async {
 }
 
 Future<void> main() async {
-  // WidgetsFlutterBinding.ensureInitialized();
-  // await Firebase.initializeApp();
-  // await signInAnonymously();
-
+  WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  await signInAnonymously();
 
   runApp(MyApp());
 }
@@ -52,7 +50,7 @@ class _CustomAppBarScreenState extends State<CustomAppBarScreenTest> {
     Page1(),
     Projectpage(),
     Page3(),
-    Page4(),
+    GuestBook(),
   ];
 
   void _onItemTapped(int index, String menu) {
