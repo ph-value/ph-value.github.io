@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:sando_diary/BlogPostList.dart';
+import 'package:sando_diary/customDecoration.dart';
+import 'package:sando_diary/projectPage.dart';
 
 import 'firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -31,6 +34,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: CustomAppBarScreenTest(),
+
     );
   }
 }
@@ -46,7 +50,7 @@ class _CustomAppBarScreenState extends State<CustomAppBarScreenTest> {
 
   static final List<Widget> _widgetOptions = <Widget>[
     Page1(),
-    Page2(),
+    Projectpage(),
     Page3(),
     Page4(),
   ];
@@ -111,6 +115,7 @@ class _CustomAppBarScreenState extends State<CustomAppBarScreenTest> {
                           decoration: BoxDecoration(
                             color: const Color(0xFF9581f5),
                             border: Border.all(width: 1, color: Colors.black),
+                            boxShadow: AppShadows.customBaseBoxShadow,
                           ),
                           child: Stack(
                             alignment: Alignment.bottomCenter,
@@ -140,6 +145,7 @@ class _CustomAppBarScreenState extends State<CustomAppBarScreenTest> {
                           decoration: BoxDecoration(
                             color: const Color(0xFF75F8AE),
                             border: Border.all(width: 1, color: Colors.black),
+                            boxShadow: AppShadows.customBaseBoxShadow,
                           ),
                           child: Stack(
                             alignment: Alignment.bottomCenter,
@@ -149,7 +155,7 @@ class _CustomAppBarScreenState extends State<CustomAppBarScreenTest> {
                                 visible: _selectedIndex == 1 ? true : false,
                                 child: Container(
                                   height: 25,
-                                  color: const Color(0xFF90F9BE),
+                                  color: const Color(0xFFBBF5D4),
                                 ),
                               )
                             ],
@@ -167,6 +173,7 @@ class _CustomAppBarScreenState extends State<CustomAppBarScreenTest> {
                           decoration: BoxDecoration(
                             color: const Color(0xFFE1F970),
                             border: Border.all(width: 1, color: Colors.black),
+                            boxShadow: AppShadows.customBaseBoxShadow,
                           ),
                           child: Stack(
                             alignment: Alignment.bottomCenter,
@@ -176,7 +183,7 @@ class _CustomAppBarScreenState extends State<CustomAppBarScreenTest> {
                                 visible: _selectedIndex == 2 ? true : false,
                                 child: Container(
                                   height: 25,
-                                  color: const Color(0xFFE7FA8C),
+                                  color: const Color(0xFFECF6BD),
                                 ),
                               )
                             ],
@@ -194,6 +201,7 @@ class _CustomAppBarScreenState extends State<CustomAppBarScreenTest> {
                           decoration: BoxDecoration(
                             color: const Color(0xFF99D6F9),
                             border: Border.all(width: 1, color: Colors.black),
+                            boxShadow: AppShadows.customBaseBoxShadow,
                           ),
                           child: Stack(
                             alignment: Alignment.bottomCenter,
@@ -203,7 +211,7 @@ class _CustomAppBarScreenState extends State<CustomAppBarScreenTest> {
                                 visible: _selectedIndex == 3 ? true : false,
                                 child: Container(
                                   height: 25,
-                                  color: const Color(0xFFADDEFA),
+                                  color: const Color(0xFFBEE7FE),
                                 ),
                               )
                             ],
@@ -288,6 +296,7 @@ class _CustomAppBarScreenState extends State<CustomAppBarScreenTest> {
                                 color: const Color(0xFF9581f5),
                                 border:
                                     Border.all(width: 1, color: Colors.black),
+                                boxShadow: AppShadows.customBaseBoxShadow,
                               ),
                               child: Row(
                                 mainAxisSize: MainAxisSize.max,
@@ -316,6 +325,7 @@ class _CustomAppBarScreenState extends State<CustomAppBarScreenTest> {
                                 color: const Color(0xFF75F8AE),
                                 border:
                                     Border.all(width: 1, color: Colors.black),
+                                boxShadow: AppShadows.customBaseBoxShadow,
                               ),
                               child: Row(
                                 mainAxisSize: MainAxisSize.max,
@@ -326,7 +336,7 @@ class _CustomAppBarScreenState extends State<CustomAppBarScreenTest> {
                                   ),
                                   Expanded(
                                       child: Container(
-                                          color: const Color(0xFF90F9BE),
+                                          color: const Color(0xFFBBF5D4),
                                           padding: const EdgeInsets.all(12.0),
                                           child: Text('Projects'))),
                                 ],
@@ -343,6 +353,7 @@ class _CustomAppBarScreenState extends State<CustomAppBarScreenTest> {
                                 color: const Color(0xFFE1F970),
                                 border:
                                     Border.all(width: 1, color: Colors.black),
+                                boxShadow: AppShadows.customBaseBoxShadow,
                               ),
                               child: Row(
                                 mainAxisSize: MainAxisSize.max,
@@ -353,7 +364,7 @@ class _CustomAppBarScreenState extends State<CustomAppBarScreenTest> {
                                   ),
                                   Expanded(
                                       child: Container(
-                                          color: const Color(0xFFE7FA8C),
+                                          color: const Color(0xFFECF6BD),
                                           padding: const EdgeInsets.all(12.0),
                                           child: Text('About'))),
                                 ],
@@ -370,6 +381,7 @@ class _CustomAppBarScreenState extends State<CustomAppBarScreenTest> {
                                 color: const Color(0xFF99D6F9),
                                 border:
                                     Border.all(width: 1, color: Colors.black),
+                                boxShadow: AppShadows.customBaseBoxShadow,
                               ),
                               child: Row(
                                 mainAxisSize: MainAxisSize.max,
@@ -380,7 +392,7 @@ class _CustomAppBarScreenState extends State<CustomAppBarScreenTest> {
                                   ),
                                   Expanded(
                                       child: Container(
-                                          color: const Color(0xFFADDEFA),
+                                          color: const Color(0xFFBEE7FE),
                                           padding: const EdgeInsets.all(12.0),
                                           child: Text('GuestBook'))),
                                 ],
@@ -415,17 +427,6 @@ class Page1 extends StatelessWidget {
   }
 }
 
-class Page2 extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Text(
-        'Page 2',
-        style: TextStyle(fontSize: 24),
-      ),
-    );
-  }
-}
 
 class Page3 extends StatelessWidget {
   @override
