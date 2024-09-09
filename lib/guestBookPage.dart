@@ -56,15 +56,7 @@ class _GuestBookState extends State<GuestBook> {
                   });
                   await saveUserName(newName); // Firestore에 새 이름 저장
                 },
-                style: ButtonStyle(
-                    shape: WidgetStateProperty.all<RoundedRectangleBorder>(
-                        const RoundedRectangleBorder(
-                            borderRadius: BorderRadius.zero,
-                            side: BorderSide(color: Colors.black)
-                        )
-                    ),
-
-                ),
+                style: OutlinedButton.styleFrom(shape: StadiumBorder(),),
                 child: Container(
                     decoration: BoxDecoration(
                         color: Colors.yellow,
@@ -79,6 +71,7 @@ class _GuestBookState extends State<GuestBook> {
           ),
         ),
         Expanded(
+
           child: StreamBuilder<QuerySnapshot>(
             stream: getMessages(),
             builder: (ctx, snapshot) {
