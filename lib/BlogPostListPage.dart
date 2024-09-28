@@ -5,12 +5,12 @@ import 'package:flutter/services.dart';
 import 'package:markdown_widget/markdown_widget.dart';
 import 'package:sando_diary/BlogPost.dart';
 
-class BlogPostList extends StatefulWidget {
+class BlogPostListPage extends StatefulWidget {
   @override
-  _BlogPostListState createState() => _BlogPostListState();
+  _BlogPostListPageState createState() => _BlogPostListPageState();
 }
 
-class _BlogPostListState extends State<BlogPostList> {
+class _BlogPostListPageState extends State<BlogPostListPage> {
   late Future<List<BlogPost>> futureFiles;
   bool isShowPostDetail = false;
   late BlogPost currentPost;

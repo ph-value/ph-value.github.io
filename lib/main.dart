@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:sando_diary/AboutPage.dart';
-import 'package:sando_diary/BlogPostList.dart';
+import 'package:sando_diary/BlogPostListPage.dart';
 import 'package:sando_diary/customDecoration.dart';
 import 'package:sando_diary/guestBookPage.dart';
-import 'package:sando_diary/projectPage.dart';
+import 'package:sando_diary/ProjectListPage.dart';
 
 import 'firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -44,7 +44,7 @@ class CustomAppBarScreenTest extends StatefulWidget {
 }
 
 class _CustomAppBarScreenState extends State<CustomAppBarScreenTest> {
-  int _selectedIndex = 0;
+  int _selectedIndex = 1;
   String _seletedMenu = "Posts";
 
   static final List<Widget> _widgetOptions = <Widget>[
@@ -422,7 +422,7 @@ class Page1 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // return MarkdownPage(data: '');
-    return BlogPostList();
+    return BlogPostListPage();
   }
 }
 
