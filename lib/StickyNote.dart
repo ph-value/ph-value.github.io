@@ -118,3 +118,13 @@ Color brighten(Color c, [int percent = 30]) {
       c.green + ((255 - c.green) * p).round(),
       c.blue + ((255 - c.blue) * p).round());
 }
+
+Color darker(Color c, [int percent = 30]) {
+  var p = percent / 100;
+  return Color.fromARGB(
+    c.alpha,
+    (c.red * (1 - p)).round(),
+    (c.green * (1 - p)).round(),
+    (c.blue * (1 - p)).round(),
+  );
+}
