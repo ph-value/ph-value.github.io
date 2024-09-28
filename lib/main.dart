@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sando_diary/AboutPage.dart';
 import 'package:sando_diary/BlogPostList.dart';
 import 'package:sando_diary/customDecoration.dart';
 import 'package:sando_diary/guestBookPage.dart';
@@ -429,12 +430,7 @@ class Page1 extends StatelessWidget {
 class Page3 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Text(
-        'Page 3',
-        style: TextStyle(fontSize: 24),
-      ),
-    );
+    return AboutPage();
   }
 }
 

@@ -40,7 +40,8 @@ flutter:
   assets:
     - post/
     - post_files.json
-#    - post_images/
+    - post_images/
+    - assets/
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
