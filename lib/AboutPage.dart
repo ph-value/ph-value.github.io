@@ -27,7 +27,6 @@ class AboutPage extends StatelessWidget {
                 fontWeight: FontWeight.bold,
               ),
             ),
-            SizedBox(height: 10),
             Text(
               'Mobile Developer,', // 직업 또는 타이틀
               style: TextStyle(
@@ -36,21 +35,70 @@ class AboutPage extends StatelessWidget {
               ),
             ),
             SizedBox(height: 20),
-            Text(
-              '안녕하세요! 모바일 개발자 산도입니다. '
-              '\n 손 안에 들어오는 모바일 개발이 매력적이라 안드로이드 개발을 목표로 하고, \n'
-              '\n iOS에도 관심이 있어 SwiftUI로 앱을 만들어보려 합니다. '
-              '\n여러 강의를 수강하며 필요한 기술을 배우고 능숙하게 활용하려고 준비 중입니다.'
-              '\n두 개의 모바일 생태계에서 자유롭게 활동하는 것을 목표로 Flutter 앱을 출시했습니다. '
-              '\n\n 스케이트보드와 인라인 스케이트를 타며 땅을 박차고 바람을 맞으며 생각을 정리하고,'
-              '\n때로는 코바늘로 인형이나 키링을 만들어가며 스트레스를 풀어요. 네, 실도 짜고, 코드도 짭니다.'
-              '\n이렇게 다양한 방식으로 나를 표현하고, 또 성장해가는 중입니다. '
-              '\n이 블로그는 그런 여정의 일부를 담아두는 공간입니다.',
-              // 소개 글
-              style: TextStyle(
-                fontSize: 16,
-                height: 1.5,
+            Text.rich(
+              TextSpan(
+                children: [
+                  TextSpan(text: "안녕하세요! 모바일 개발자 산도입니다.\n"),
+                  TextSpan(text: "손 안에 들어오는 모바일 개발이 매력적이라 "),
+                  TextSpan(
+                    text: "Android", // Android 볼드 처리 및 아이콘 추가
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  WidgetSpan(
+                    child: Icon(Icons.android, size: 20, color: Colors.green),
+                  ),
+                  TextSpan(text: " 개발을 목표로 하고 있어요.\n"),
+                  TextSpan(
+                    text: "iOS", // iOS 볼드 처리 및 아이콘 추가
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  WidgetSpan(
+                    child: Icon(Icons.apple, size: 20, color: Colors.black),
+                  ),
+                  TextSpan(text: "에도 관심이 있어, SwiftUI로 앱을 만들어보는 중입니다.\n"),
+                  TextSpan(
+                      text:
+                          "현재 여러 강의를 통해 필요한 기술을 배우고, 실무에서 능숙하게 활용할 준비를 하고 있답니다.\n"),
+                  TextSpan(
+                      text:
+                          "Android와 iOS 두 모바일 생태계에서 자유롭게 활동할 수 있는 개발자가 되고 싶어, "),
+                  TextSpan(
+                    text: "Flutter", // Flutter 볼드 처리 및 아이콘 추가
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  WidgetSpan(
+                    child:
+                        Icon(Icons.flutter_dash, size: 20, color: Colors.blue),
+                  ),
+                  TextSpan(text: "로도 앱을 출시해 봤어요.\n\n"),
+                  TextSpan(text: "개발 외에도 "),
+                  TextSpan(
+                      text: "스케이트보드",
+                      style: TextStyle(fontWeight: FontWeight.bold)),
+                  WidgetSpan(
+                    child: Icon(Icons.skateboarding,
+                        size: 20, color: Colors.deepPurpleAccent),
+                  ),
+                  TextSpan(text: "와 "),
+                  TextSpan(
+                      text: "인라인 스케이트",
+                      style: TextStyle(fontWeight: FontWeight.bold)),
+                  WidgetSpan(
+                    child: Icon(Icons.roller_skating, size: 20, color: Colors.red),
+                  ),
+                  TextSpan(text: "를 타며 바람을 맞고, 생각을 정리하는 걸 좋아해요.\n또, "),
+                  TextSpan(
+                      text: "코바늘",
+                      style: TextStyle(fontWeight: FontWeight.bold)),
+                  WidgetSpan(
+                    child: Icon(Icons.gesture, size: 20, color: Colors.pink),
+                  ),
+                  TextSpan(
+                      text:
+                          "로 인형이나 키링을 만들어보기도 하는데, 실을 엮어가며 무언가를 완성하는 기쁨이 코드 짤 때와 비슷하게 느껴져요.\n\n이 블로그는 제 여정을 담아두는 작은 기록입니다. 실도 짜고, 코드도 짜며, 저만의 속도로 성장해가는 모습을 함께 나누고 싶어요."),
+                ],
               ),
+              style: TextStyle(fontSize: 18),
             ),
           ],
         ),
