@@ -1,6 +1,8 @@
 # Created by https://www.toptal.com/developers/gitignore/api/visualstudiocode,flutter,firebase
 # Edit at https://www.toptal.com/developers/gitignore?templates=visualstudiocode,flutter,firebase
 
+.DS_Store
+
 ### Firebase ###
 .idea
 **/node_modules/*
