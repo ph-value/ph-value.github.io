@@ -1,7 +1,11 @@
 [
   {
     "filename": "iconhabit",
-    "content": "# IconHabit\n\n![iconhabit-ios-screenshot-1.png](..%2Fproject_images%2Ficonhabit-ios-screenshot-1.png)"
+    "content": "# IconHabit\n\n![iconhabit-ios-screenshot-1.png](../project_images/iconhabit-ios-screenshot-1.png)\n"
+  },
+  {
+    "filename": "mindlift",
+    "content": "# MindLift\n"
   },
   {
     "filename": "sando-diary",

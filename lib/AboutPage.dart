@@ -39,7 +39,6 @@ class AboutPage extends StatelessWidget {
               TextSpan(
                 children: [
                   TextSpan(text: "안녕하세요! 모바일 개발자 산도입니다.\n"),
-                  TextSpan(text: "손 안에 들어오는 모바일 개발이 매력적이라 "),
                   TextSpan(
                     text: "Android", // Android 볼드 처리 및 아이콘 추가
                     style: TextStyle(fontWeight: FontWeight.bold),
@@ -47,21 +46,9 @@ class AboutPage extends StatelessWidget {
                   WidgetSpan(
                     child: Icon(Icons.android, size: 20, color: Colors.green),
                   ),
-                  TextSpan(text: " 개발을 목표로 하고 있어요.\n"),
                   TextSpan(
-                    text: "iOS", // iOS 볼드 처리 및 아이콘 추가
-                    style: TextStyle(fontWeight: FontWeight.bold),
+                    text: " 경험을 바탕으로, ",
                   ),
-                  WidgetSpan(
-                    child: Icon(Icons.apple, size: 20, color: Colors.black),
-                  ),
-                  TextSpan(text: "에도 관심이 있어, SwiftUI로 앱을 만들어보는 중입니다.\n"),
-                  TextSpan(
-                      text:
-                          "현재 여러 강의를 통해 필요한 기술을 배우고, 실무에서 능숙하게 활용할 준비를 하고 있답니다.\n"),
-                  TextSpan(
-                      text:
-                          "Android와 iOS 두 모바일 생태계에서 자유롭게 활동할 수 있는 개발자가 되고 싶어, "),
                   TextSpan(
                     text: "Flutter", // Flutter 볼드 처리 및 아이콘 추가
                     style: TextStyle(fontWeight: FontWeight.bold),
@@ -70,7 +57,10 @@ class AboutPage extends StatelessWidget {
                     child:
                         Icon(Icons.flutter_dash, size: 20, color: Colors.blue),
                   ),
-                  TextSpan(text: "로도 앱을 출시해 봤어요.\n\n"),
+                  TextSpan(
+                    text:
+                        "로 두 개의 앱을 기획하고 출시해봤어요.\n스스로 만들어내는 즐거움과 사용자와 만나는 설렘 속에서, 개발자로서의 길을 꾸준히 걸어가고 있습니다.\n\n",
+                  ),
                   TextSpan(text: "개발 외에도 "),
                   TextSpan(
                       text: "스케이트보드",
@@ -84,7 +74,8 @@ class AboutPage extends StatelessWidget {
                       text: "인라인 스케이트",
                       style: TextStyle(fontWeight: FontWeight.bold)),
                   WidgetSpan(
-                    child: Icon(Icons.roller_skating, size: 20, color: Colors.red),
+                    child:
+                        Icon(Icons.roller_skating, size: 20, color: Colors.red),
                   ),
                   TextSpan(text: "를 타며 바람을 맞고, 생각을 정리하는 걸 좋아해요.\n또, "),
                   TextSpan(
