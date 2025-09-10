@@ -2,6 +2,7 @@
 title: 예제 마크다운 Test...!
 date: 2024-08-14
 category: Test
+slug: example_markdown
 ---
 
 # h1 Heading 8-)
