@@ -1,7 +1,6 @@
 [
   {
     "name": "markdown_example.md",
-    "path": "post/markdown_example.md",
     "download_url": "https://raw.githubusercontent.com/ph-value/ph-value.github.io/main/post/markdown_example.md",
     "frontMatter": {
       "title": "예제 마크다운 Test...!",
