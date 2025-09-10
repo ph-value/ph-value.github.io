@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sando_diary/pages/about_page.dart';
 import 'package:sando_diary/pages/post_list_page.dart';
-import 'package:sando_diary/theme/customDecoration.dart';
+import 'package:sando_diary/theme/custom_decoration.dart';
 import 'package:sando_diary/pages/guestbook_page.dart';
 import 'package:sando_diary/pages/project_list_page.dart';
 
