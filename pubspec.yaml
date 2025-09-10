@@ -42,8 +42,6 @@ dev_dependencies:
 flutter:
   assets:
     - post/
-    - post_files.json
-    - post_images/
     - assets/
     - project_info/
     - project_images/
