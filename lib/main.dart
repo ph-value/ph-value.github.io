@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:sando_diary/AboutPage.dart';
-import 'package:sando_diary/BlogPostListPage.dart';
-import 'package:sando_diary/PostListPage.dart';
-import 'package:sando_diary/customDecoration.dart';
-import 'package:sando_diary/guestBookPage.dart';
-import 'package:sando_diary/ProjectListPage.dart';
+import 'package:sando_diary/pages/about_page.dart';
+import 'package:sando_diary/pages/post_list_page.dart';
+import 'package:sando_diary/theme/customDecoration.dart';
+import 'package:sando_diary/pages/guestbook_page.dart';
+import 'package:sando_diary/pages/project_list_page.dart';
 
 import 'firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';

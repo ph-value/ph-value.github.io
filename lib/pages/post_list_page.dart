@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'dart:html' as html;
 import 'package:markdown_widget/markdown_widget.dart';
-import 'package:sando_diary/PostMeta.dart';
+import 'package:sando_diary/model/post_meta.dart';
 
 class PostListPage extends StatefulWidget {
   const PostListPage({super.key});

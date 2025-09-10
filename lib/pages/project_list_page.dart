@@ -3,7 +3,7 @@ import 'dart:html' as html;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:markdown_widget/markdown_widget.dart';
-import 'package:sando_diary/customDecoration.dart';
+import 'package:sando_diary/theme/customDecoration.dart';
 
 class Projectpage extends StatefulWidget {
   const Projectpage({super.key});

@@ -1,9 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:sando_diary/StickyNote.dart';
-import 'package:sando_diary/customDecoration.dart';
-import 'package:sando_diary/services.dart';
+import 'package:sando_diary/widget/sticky_note.dart';
+import 'package:sando_diary/theme/customDecoration.dart';
+import 'package:sando_diary/firestore_service.dart';
 
 class GuestBook extends StatefulWidget {
   @override
