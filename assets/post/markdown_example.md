@@ -27,7 +27,7 @@ slug: example_markdown
 
 ![iconhabit](../project_images/iconhabit-ios-screenshot-1.png)
 
-![tutorial_image](../post_images/tutorial1_light.png)
+![Image](../assets/post_images/tutorial1_light.png)
 
 ## Typographic replacements
 
