@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
-import 'dart:html' as html;
+import 'package:web/web.dart' as web;
+import 'dart:js_interop';
+
 import 'package:markdown_widget/markdown_widget.dart';
 import 'package:sando_diary/model/post_meta.dart';
 
@@ -25,15 +27,17 @@ class _PostListPageState extends State<PostListPage> {
   }
 
   void _launchURLInNewTab(String url) {
-    html.window.open(url, '_blank');
+    web.window.open(url, '_blank');
   }
 
   void _copyCurrentPostUrlToClipboard() {
-    final currentUrl = html.window.location.href; // 현재 페이지의 URL 가져오기
-    Clipboard.setData(ClipboardData(text: currentUrl)); // URL을 클립보드에 복사
+    final postUrl =
+        Uri.base.resolve('/posts/${currentPost.meta.slug}').toString();
+    print('Copy URL: $postUrl');
+    Clipboard.setData(ClipboardData(text: postUrl));
 
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('URL copied to clipboard!')),
+      const SnackBar(content: Text('URL copied to clipboard!')),
     );
   }
 
@@ -52,7 +56,7 @@ class _PostListPageState extends State<PostListPage> {
             data: currentDoc.body,
             config: MarkdownConfig(configs: [
               LinkConfig(
-                style: TextStyle(
+                style: const TextStyle(
                   color: Colors.cyan,
                   decoration: TextDecoration.underline,
                 ),
@@ -72,7 +76,7 @@ class _PostListPageState extends State<PostListPage> {
     return Scaffold(
       appBar: !isShowPostDetail
           ? AppBar(
-              title: Text('Blog Posts'),
+              title: const Text('Blog Posts'),
             )
           : AppBar(
               elevation: 0,
@@ -84,7 +88,7 @@ class _PostListPageState extends State<PostListPage> {
               leading: BackButton(
                 onPressed: () => setState(() {
                   isShowPostDetail = false;
-                  html.window.history.pushState(null, 'Posts', '/');
+                  web.window.history.pushState(null, 'Posts', '/');
                 }),
               ),
               actions: [

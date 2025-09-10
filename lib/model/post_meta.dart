@@ -7,8 +7,13 @@ class PostMeta {
   final String title;
   final String category;
   final DateTime? date;
+  final String slug;
 
-  PostMeta({required this.title, required this.category, this.date});
+  PostMeta(
+      {required this.title,
+      required this.category,
+      this.date,
+      required this.slug});
 
   factory PostMeta.fromJson(Map<String, dynamic> json) {
     final rawTitle = (json['title'] ?? '').toString().trim();
@@ -21,13 +26,21 @@ class PostMeta {
         dt = DateTime.parse(rawDate);
       } catch (_) {}
     }
-    return PostMeta(title: rawTitle, category: rawCategory, date: dt);
+
+    final rawSlug = Uri.encodeComponent((json['slug'] ?? '')
+        .toString()
+        .trim()
+        .replaceAll(RegExp(r'^-+|-+$'), ''));
+
+    return PostMeta(
+        title: rawTitle, category: rawCategory, date: dt, slug: rawSlug);
   }
 
   PostMeta withFallbacks({required String fallbackTitle}) => PostMeta(
         title: title.isNotEmpty ? title : fallbackTitle,
         category: category.isNotEmpty ? category : 'Uncategorized',
         date: date,
+        slug: slug,
       );
 }
 
