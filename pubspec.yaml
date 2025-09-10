@@ -1,7 +1,7 @@
 name: sando_diary
 description: "This is a sando's homepage."
 
-publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+publish_to: "none" # Remove this line if you wish to publish to pub.dev
 
 version: 1.0.0+1
 
@@ -17,9 +17,10 @@ dependencies:
   cloud_firestore: ^5.4.0
 
   markdown_widget: ^2.3.2+6
+  cosmic_frontmatter: ^1.0.3
+  intl: ^0.20.2
   yaml: ^3.1.2
   url_launcher: ^6.0.20
-
 
 dev_dependencies:
   flutter_test:

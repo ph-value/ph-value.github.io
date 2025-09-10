@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sando_diary/AboutPage.dart';
 import 'package:sando_diary/BlogPostListPage.dart';
+import 'package:sando_diary/PostListPage.dart';
 import 'package:sando_diary/customDecoration.dart';
 import 'package:sando_diary/guestBookPage.dart';
 import 'package:sando_diary/ProjectListPage.dart';
@@ -33,7 +34,6 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: CustomAppBarScreenTest(),
-
     );
   }
 }
@@ -419,15 +419,17 @@ class _CustomAppBarScreenState extends State<CustomAppBarScreenTest> {
 }
 
 class Page1 extends StatelessWidget {
+  const Page1({super.key});
+
   @override
   Widget build(BuildContext context) {
-    // return MarkdownPage(data: '');
-    return BlogPostListPage();
+    return const PostListPage();
   }
 }
 
-
 class Page3 extends StatelessWidget {
+  const Page3({super.key});
+
   @override
   Widget build(BuildContext context) {
     return AboutPage();
