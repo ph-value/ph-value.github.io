@@ -97,3 +97,4 @@ pubspec.lock
 .ionide
 
 # End of https://www.toptal.com/developers/gitignore/api/visualstudiocode,flutter,firebase
+pubspec.lock
