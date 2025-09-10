@@ -3,7 +3,8 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 
 class StickyNote extends StatelessWidget {
-  StickyNote({required this.child, required this.color, required this.isMe});
+  const StickyNote(
+      {required this.child, required this.color, required this.isMe});
 
   final Widget child;
   final Color color;
@@ -85,13 +86,13 @@ class StickyNotePainter extends CustomPainter {
   }
 
   Paint _createGradientPaint(Size size) {
-    Paint paint = new Paint();
+    Paint paint = Paint();
 
     Rect rect = Rect.fromLTWH(0, 0, size.width, size.height);
-    RadialGradient gradient = new RadialGradient(
+    RadialGradient gradient = RadialGradient(
         colors: [brighten(color), color],
         radius: 1.0,
-        stops: [0.5, 1.0],
+        stops: const [0.5, 1.0],
         center: isMe ? Alignment.bottomLeft : Alignment.bottomRight);
     paint.shader = gradient.createShader(rect);
     return paint;
@@ -99,7 +100,7 @@ class StickyNotePainter extends CustomPainter {
 
   void _drawShadow(Size size, Canvas canvas) {
     Rect rect = Rect.fromLTWH(12, 12, size.width - 24, size.height - 24);
-    Path path = new Path();
+    Path path = Path();
     path.addRect(rect);
     canvas.drawShadow(path, Colors.black.withOpacity(0.7), 12.0, true);
   }

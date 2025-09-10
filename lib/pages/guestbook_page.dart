@@ -89,7 +89,7 @@ class _GuestBookState extends State<GuestBook> {
             stream: getMessages(),
             builder: (ctx, snapshot) {
               if (!snapshot.hasData) {
-                return Center(child: CircularProgressIndicator());
+                return const Center(child: CircularProgressIndicator());
               }
 
               final docs = snapshot.data!.docs;
@@ -140,12 +140,13 @@ class _GuestBookState extends State<GuestBook> {
                                 Text(
                                   doc['userName'] ?? 'Anonymous',
                                   // 저장된 사용자 이름 표시
-                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                  style: const TextStyle(
+                                      fontWeight: FontWeight.bold),
                                 ),
                                 const SizedBox(height: 4),
                                 Text(
                                   doc['text'],
-                                  style: TextStyle(fontSize: 16),
+                                  style: const TextStyle(fontSize: 16),
                                 ),
                               ],
                             ),
@@ -174,7 +175,7 @@ class _GuestBookState extends State<GuestBook> {
                 ),
               ),
               IconButton(
-                icon: Icon(Icons.send),
+                icon: const Icon(Icons.send),
                 onPressed: () {
                   sendMessage(messageController.text,
                       userName); // Firestore에 저장된 이름으로 메시지 전송

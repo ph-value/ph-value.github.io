@@ -1,26 +1,28 @@
 import 'package:flutter/material.dart';
 
 class AboutPage extends StatelessWidget {
+  const AboutPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('About Me'),
+        title: const Text('About Me'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Center(
+            const Center(
               child: CircleAvatar(
                 radius: 50,
                 backgroundImage:
                     AssetImage('assets/profile.WEBP'), // 프로필 이미지 경로
               ),
             ),
-            SizedBox(height: 20),
-            Text(
+            const SizedBox(height: 20),
+            const Text(
               'Sando, ', // 이름 입력
               style: TextStyle(
                 fontSize: 24,
@@ -34,8 +36,8 @@ class AboutPage extends StatelessWidget {
                 color: Colors.grey[600],
               ),
             ),
-            SizedBox(height: 20),
-            Text.rich(
+            const SizedBox(height: 20),
+            const Text.rich(
               TextSpan(
                 children: [
                   TextSpan(text: "안녕하세요! 모바일 개발자 산도입니다.\n"),

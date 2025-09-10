@@ -43,9 +43,9 @@ class _ProjectpageState extends State<Projectpage> {
   ];
 
   final Map<String, Color> tagColors = {
-    'Flutter': Color(0xFF027DFD),
-    'Android': Color(0xFF3DDC84),
-    'iOS': Color(0xFF555555),
+    'Flutter': const Color(0xFF027DFD),
+    'Android': const Color(0xFF3DDC84),
+    'iOS': const Color(0xFF555555),
     'Web': Colors.white,
   };
 
@@ -87,7 +87,7 @@ class _ProjectpageState extends State<Projectpage> {
         data: currentProject.content,
         config: MarkdownConfig(configs: [
           LinkConfig(
-            style: TextStyle(
+            style: const TextStyle(
               color: Colors.cyan,
               decoration: TextDecoration.underline,
             ),
@@ -166,7 +166,7 @@ class _ProjectpageState extends State<Projectpage> {
                                   },
                                   child: Row(
                                     children: [
-                                      Placeholder(),
+                                      const Placeholder(),
                                       Padding(
                                         padding: const EdgeInsets.only(
                                           left: 12,
@@ -182,7 +182,8 @@ class _ProjectpageState extends State<Projectpage> {
                                           children: [
                                             Text(
                                               cardData.title,
-                                              style: TextStyle(fontSize: 25),
+                                              style:
+                                                  const TextStyle(fontSize: 25),
                                             ),
                                             Expanded(
                                               child: Text(cardData.description),
@@ -298,9 +299,10 @@ class _ProjectpageState extends State<Projectpage> {
                                           children: [
                                             Text(
                                               cardData.title,
-                                              style: TextStyle(fontSize: 25),
+                                              style:
+                                                  const TextStyle(fontSize: 25),
                                             ),
-                                            SizedBox(
+                                            const SizedBox(
                                               height: 8,
                                             ),
                                             Row(

@@ -24,10 +24,12 @@ Future<void> main() async {
   );
   await signInAnonymously();
 
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -47,9 +49,9 @@ class _CustomAppBarScreenState extends State<CustomAppBarScreenTest> {
   String _seletedMenu = "Posts";
 
   static final List<Widget> _widgetOptions = <Widget>[
-    Page1(),
-    Projectpage(),
-    Page3(),
+    const Page1(),
+    const Projectpage(),
+    const Page3(),
     GuestBook(),
   ];
 
@@ -118,7 +120,7 @@ class _CustomAppBarScreenState extends State<CustomAppBarScreenTest> {
                           child: Stack(
                             alignment: Alignment.bottomCenter,
                             children: [
-                              Center(
+                              const Center(
                                 child: Text("Posts"),
                               ),
                               Visibility(
@@ -132,7 +134,7 @@ class _CustomAppBarScreenState extends State<CustomAppBarScreenTest> {
                           ),
                         ),
                       ),
-                      SizedBox(width: 10),
+                      const SizedBox(width: 10),
                       GestureDetector(
                         onTap: () => _onItemTapped(1, "Projects"),
                         child: Container(
@@ -148,7 +150,7 @@ class _CustomAppBarScreenState extends State<CustomAppBarScreenTest> {
                           child: Stack(
                             alignment: Alignment.bottomCenter,
                             children: [
-                              Center(child: Text("Projects")),
+                              const Center(child: Text("Projects")),
                               Visibility(
                                 visible: _selectedIndex == 1 ? true : false,
                                 child: Container(
@@ -160,7 +162,7 @@ class _CustomAppBarScreenState extends State<CustomAppBarScreenTest> {
                           ),
                         ),
                       ),
-                      SizedBox(width: 10),
+                      const SizedBox(width: 10),
                       GestureDetector(
                         onTap: () => _onItemTapped(2, "About"),
                         child: Container(
@@ -176,7 +178,7 @@ class _CustomAppBarScreenState extends State<CustomAppBarScreenTest> {
                           child: Stack(
                             alignment: Alignment.bottomCenter,
                             children: [
-                              Center(child: Text("About")),
+                              const Center(child: Text("About")),
                               Visibility(
                                 visible: _selectedIndex == 2 ? true : false,
                                 child: Container(
@@ -188,7 +190,7 @@ class _CustomAppBarScreenState extends State<CustomAppBarScreenTest> {
                           ),
                         ),
                       ),
-                      SizedBox(width: 10),
+                      const SizedBox(width: 10),
                       GestureDetector(
                         onTap: () => _onItemTapped(3, "GuestBook"),
                         child: Container(
@@ -204,7 +206,7 @@ class _CustomAppBarScreenState extends State<CustomAppBarScreenTest> {
                           child: Stack(
                             alignment: Alignment.bottomCenter,
                             children: [
-                              Center(child: Text("GuestBook")),
+                              const Center(child: Text("GuestBook")),
                               Visibility(
                                 visible: _selectedIndex == 3 ? true : false,
                                 child: Container(
@@ -271,10 +273,10 @@ class _CustomAppBarScreenState extends State<CustomAppBarScreenTest> {
                       children: <Widget>[
                         Container(
                           height: 180,
-                          decoration: BoxDecoration(
+                          decoration: const BoxDecoration(
                             color: Colors.transparent,
                           ),
-                          child: Center(
+                          child: const Center(
                             child: Text(
                               '   Sando`s Diary',
                               style: TextStyle(
@@ -307,7 +309,7 @@ class _CustomAppBarScreenState extends State<CustomAppBarScreenTest> {
                                     child: Container(
                                         color: const Color(0xFFAA9AF7),
                                         padding: const EdgeInsets.all(12),
-                                        child: Text('Posts')),
+                                        child: const Text('Posts')),
                                   ),
                                 ],
                               )),
@@ -336,7 +338,7 @@ class _CustomAppBarScreenState extends State<CustomAppBarScreenTest> {
                                       child: Container(
                                           color: const Color(0xFFBBF5D4),
                                           padding: const EdgeInsets.all(12.0),
-                                          child: Text('Projects'))),
+                                          child: const Text('Projects'))),
                                 ],
                               )),
                         ),
@@ -364,7 +366,7 @@ class _CustomAppBarScreenState extends State<CustomAppBarScreenTest> {
                                       child: Container(
                                           color: const Color(0xFFECF6BD),
                                           padding: const EdgeInsets.all(12.0),
-                                          child: Text('About'))),
+                                          child: const Text('About'))),
                                 ],
                               )),
                         ),
@@ -392,7 +394,7 @@ class _CustomAppBarScreenState extends State<CustomAppBarScreenTest> {
                                       child: Container(
                                           color: const Color(0xFFBEE7FE),
                                           padding: const EdgeInsets.all(12.0),
-                                          child: Text('GuestBook'))),
+                                          child: const Text('GuestBook'))),
                                 ],
                               )),
                         ),
@@ -438,7 +440,7 @@ class Page3 extends StatelessWidget {
 class Page4 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Center(
+    return const Center(
       child: Text(
         'Page 4',
         style: TextStyle(fontSize: 24),
