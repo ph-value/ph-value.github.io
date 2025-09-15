@@ -106,9 +106,9 @@ class _PostListPageState extends State<PostListPage> {
         children: [
           Align(
             alignment: Alignment.topRight,
-            child: Text(currentDoc.meta.date != null
-                ? DateFormat('yyyy-MM-dd').format(currentDoc.meta.date!)
-                : '날짜 정보 없음'),
+            child: Text(
+              'category: ${currentDoc.meta.category}${currentDoc.meta.date != null ? ' · ${DateFormat('yyyy-MM-dd').format(currentDoc.meta.date!)}' : ' · 날짜 정보 없음'}',
+            ),
           ),
           MarkdownWidget(
             data: currentDoc.body,
@@ -256,7 +256,11 @@ class _PostListPageState extends State<PostListPage> {
                       return ListTile(
                         title: Text(d.meta.title,
                             maxLines: 1, overflow: TextOverflow.ellipsis),
-                        subtitle: Text('${d.meta.category} · $dateStr'),
+                        subtitle: Text(
+                          d.meta.tag.isNotEmpty
+                              ? '${d.meta.category} · ${d.meta.tag} · $dateStr'
+                              : '${d.meta.category} · $dateStr',
+                        ),
                         trailing: const Icon(Icons.chevron_right),
                         onTap: () {
                           final postPath =
