@@ -3,9 +3,7 @@ name: Deploy Flutter Web to GitHub Pages
 on:
   push:
     branches:
-      - main  # main 브랜치에 푸시될 때 실행
-    paths-ignore:
-      - 'post/**'
+      - main # main 브랜치에 푸시될 때 실행
   workflow_dispatch: # 수동으로도 실행 가능
 
 jobs:
@@ -13,23 +11,23 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-    - name: Set up Flutter
-      uses: subosito/flutter-action@v2
-      with:
-        flutter-version: '3.19.0'
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: "3.19.0"
 
-    - name: Install dependencies
-      run: flutter pub get
+      - name: Install dependencies
+        run: flutter pub get
 
-    - name: Build Flutter web
-      run: flutter build web
+      - name: Build Flutter web
+        run: flutter build web
 
-    - name: Deploy to GitHub Pages
-      uses: peaceiris/actions-gh-pages@v3
-      with:
-        github_token: ${{ secrets.ACTIONS_DEPLOY_KEY }}
-        publish_dir: build/web
-        keep_files: true
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.ACTIONS_DEPLOY_KEY }}
+          publish_dir: build/web
+          keep_files: true
