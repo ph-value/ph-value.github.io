@@ -2,6 +2,7 @@
 title: 예제 마크다운 Test...!
 date: 2024-08-14
 category: Test
+tag: Example
 slug: example_markdown
 ---
 

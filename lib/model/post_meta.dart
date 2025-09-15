@@ -6,18 +6,21 @@ import 'package:flutter/widgets.dart';
 class PostMeta {
   final String title;
   final String category;
+  final String tag;
   final DateTime? date;
   final String slug;
 
   PostMeta(
       {required this.title,
       required this.category,
+      required this.tag,
       this.date,
       required this.slug});
 
   factory PostMeta.fromJson(Map<String, dynamic> json) {
     final rawTitle = (json['title'] ?? '').toString().trim();
     final rawCategory = (json['category'] ?? 'Uncategorized').toString().trim();
+    final rawTag = (json['tag'] ?? '').toString().trim();
     final rawDate = (json['date'] ?? '').toString().trim();
     DateTime? dt;
     if (rawDate.isNotEmpty) {
@@ -33,7 +36,11 @@ class PostMeta {
         .replaceAll(RegExp(r'^-+|-+$'), ''));
 
     return PostMeta(
-        title: rawTitle, category: rawCategory, date: dt, slug: rawSlug);
+        title: rawTitle,
+        category: rawCategory,
+        tag: rawTag,
+        date: dt,
+        slug: rawSlug);
   }
 
   PostMeta withFallbacks({required String fallbackTitle}) => PostMeta(
@@ -41,6 +48,7 @@ class PostMeta {
         category: category.isNotEmpty ? category : 'Uncategorized',
         date: date,
         slug: slug,
+        tag: tag.isNotEmpty ? tag : '',
       );
 }
 

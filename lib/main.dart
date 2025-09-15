@@ -45,7 +45,7 @@ class CustomAppBarScreenTest extends StatefulWidget {
 }
 
 class _CustomAppBarScreenState extends State<CustomAppBarScreenTest> {
-  int _selectedIndex = 1;
+  int _selectedIndex = 0;
   String _seletedMenu = "Posts";
 
   static final List<Widget> _widgetOptions = <Widget>[
