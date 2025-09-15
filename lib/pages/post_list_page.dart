@@ -27,7 +27,7 @@ List<Item> generateItems(List<String> categories) {
     Item(
       headerValue: 'Post Categories',
       expandedValues: categories,
-      isExpanded: false,
+      isExpanded: true,
     )
   ];
 }
@@ -43,9 +43,11 @@ class _PostListPageState extends State<PostListPage> {
   late DateFormat df;
   bool isShowPostDetail = false;
   late MdDoc currentPost;
-
   List<Item> _data = [];
   List<String> categories = [];
+  List<String> tags = [];
+  String? _selectedCategory = 'All';
+  String? _selectedTag;
 
   @override
   void initState() {
@@ -54,11 +56,23 @@ class _PostListPageState extends State<PostListPage> {
     df = DateFormat('yyyy-MM-dd'); // 한국어 로케일이면 intl 초기화 추가 가능
 
     future.then((docs) {
-      final cats = docs.map((d) => d.meta.category).toSet().toList();
+      final cats = docs
+          .map((d) =>
+              (d.meta.category).isNotEmpty ? d.meta.category : 'Uncategorized')
+          .toSet()
+          .toList();
+      final tagList = docs
+          .map((d) => (d.meta.tag).isNotEmpty ? d.meta.tag : '')
+          .where((t) => t.isNotEmpty)
+          .toSet()
+          .toList();
       setState(() {
         categories = cats;
+        tags = tagList;
         _data = generateItems(categories);
       });
+    }).catchError((e) {
+      debugPrint('load docs error: $e');
     });
   }
 
@@ -67,14 +81,22 @@ class _PostListPageState extends State<PostListPage> {
   }
 
   void _copyCurrentPostUrlToClipboard() {
-    final postUrl =
-        Uri.base.resolve('/posts/${currentPost.meta.slug}').toString();
-    print('Copy URL: $postUrl');
-    Clipboard.setData(ClipboardData(text: postUrl));
+    try {
+      final postPath = '/posts/${currentPost.meta.slug}';
+      web.window.history.pushState(null, '', postPath);
 
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('URL copied to clipboard!')),
-    );
+      final postUrl = web.window.location.href;
+      Clipboard.setData(ClipboardData(text: postUrl));
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('URL copied to clipboard!')),
+      );
+    } catch (e, st) {
+      debugPrint('URL 복사 실패: $e\n$st');
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('URL 복사에 실패했습니다.')),
+      );
+    }
   }
 
   Widget _postDetail(MdDoc currentDoc) {
@@ -109,7 +131,8 @@ class _PostListPageState extends State<PostListPage> {
 
   @override
   Widget build(BuildContext context) {
-    Widget _buildPanel() {
+    // 카테고리 패널
+    Widget buildPanel() {
       return ExpansionPanelList(
         expansionCallback: (int index, bool isExpanded) {
           setState(() {
@@ -125,13 +148,28 @@ class _PostListPageState extends State<PostListPage> {
             body: item.hasExpandedValues
                 ? Column(
                     children: item.expandedValues.map((value) {
+                      final selected = value == _selectedCategory;
                       return ListTile(
                         title: Text(value),
+                        selected: selected,
                         onTap: () {
-                          // TODO: Implement category filtering
-                          print('Tapped on $value');
+                          setState(() {
+                            isShowPostDetail = false;
+                            _selectedCategory = value;
+                            _selectedTag = null;
+                          });
+                          final path = value == 'All'
+                              ? '/'
+                              : '/category/${Uri.encodeComponent(value)}';
+                          try {
+                            web.window.history.pushState(null, value, path);
+                          } catch (e) {
+                            debugPrint('history pushState 실패: $e');
+                          }
                         },
-                        trailing: const Icon(Icons.chevron_right),
+                        trailing: selected
+                            ? const Icon(Icons.check)
+                            : const Icon(Icons.chevron_right),
                       );
                     }).toList(),
                   )
@@ -142,55 +180,116 @@ class _PostListPageState extends State<PostListPage> {
       );
     }
 
-    Widget _buildPostList(String? category) {
-      // all 카테고리면 전체, 아니면 해당 카테고리만 필터링
-      // til 카테고리는 따로 구현?
+    // 태그 칩
+    Widget buildTagChips() {
+      if (tags.isEmpty) return const SizedBox.shrink();
+      return Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 6.0),
+        child: Wrap(
+          spacing: 8,
+          children: tags.map((t) {
+            final sel = t == _selectedTag;
+            return ChoiceChip(
+              label: Text(t),
+              selected: sel,
+              onSelected: (v) {
+                setState(() {
+                  isShowPostDetail = false;
+                  _selectedTag = v ? t : null;
+                  if (v) _selectedCategory = null;
+                });
 
-      return !isShowPostDetail
-          ? FutureBuilder<List<MdDoc>>(
-              future: future,
-              builder: (context, snap) {
-                if (snap.connectionState != ConnectionState.done) {
-                  return const Center(child: CircularProgressIndicator());
+                final path = v
+                    ? '/tag/${Uri.encodeComponent(t)}'
+                    : (_selectedCategory != null && _selectedCategory != 'All'
+                        ? '/category/${Uri.encodeComponent(_selectedCategory!)}'
+                        : '/');
+                try {
+                  web.window.history.pushState(null, _selectedTag!, path);
+                } catch (e) {
+                  debugPrint('history pushState 실패: $e');
                 }
-                if (snap.hasError) {
-                  return Center(child: Text('로드 실패: ${snap.error}'));
-                }
-                final docs = snap.data ?? [];
-                if (docs.isEmpty) {
-                  return const Center(child: Text('문서가 없습니다.'));
-                }
-                return ListView.separated(
-                  itemCount: docs.length,
-                  separatorBuilder: (_, __) => const Divider(height: 1),
-                  itemBuilder: (context, i) {
-                    final d = docs[i];
-                    final dateStr = d.meta.date != null
-                        ? df.format(d.meta.date!)
-                        : '날짜 정보 없음';
-                    return ListTile(
-                      title: Text(d.meta.title,
-                          maxLines: 1, overflow: TextOverflow.ellipsis),
-                      subtitle: Text('${d.meta.category} · $dateStr'),
-                      trailing: const Icon(Icons.chevron_right),
-                      onTap: () {
-                        setState(() {
-                          isShowPostDetail = true;
-                          currentPost = d;
-                        });
-                      },
-                    );
-                  },
-                );
               },
-            )
-          : _postDetail(currentPost);
+            );
+          }).toList(),
+        ),
+      );
+    }
+
+    // 포스트 리스트
+    Widget buildPostList(String? category) {
+      // category: All, Language, Platform, Dev, Life, Book_Review
+      // tag: TIL, 등등...
+      if (category != null && category == 'All') {
+        return !isShowPostDetail
+            ? FutureBuilder<List<MdDoc>>(
+                future: future,
+                builder: (context, snap) {
+                  if (snap.connectionState != ConnectionState.done) {
+                    return const Center(child: CircularProgressIndicator());
+                  }
+                  if (snap.hasError) {
+                    return Center(child: Text('로드 실패: ${snap.error}'));
+                  }
+                  var docs = snap.data ?? [];
+
+                  if (_selectedTag != null && _selectedTag!.isNotEmpty) {
+                    docs =
+                        docs.where((d) => d.meta.tag == _selectedTag).toList();
+                  } else if (_selectedCategory != null &&
+                      _selectedCategory != 'All') {
+                    docs = docs
+                        .where((d) => d.meta.category == _selectedCategory)
+                        .toList();
+                  }
+                  if (docs.isEmpty) {
+                    return const Center(child: Text('문서가 없습니다.'));
+                  }
+                  return ListView.separated(
+                    itemCount: docs.length,
+                    separatorBuilder: (_, __) => const Divider(height: 1),
+                    itemBuilder: (context, i) {
+                      final d = docs[i];
+                      final dateStr = d.meta.date != null
+                          ? df.format(d.meta.date!)
+                          : '날짜 정보 없음';
+                      return ListTile(
+                        title: Text(d.meta.title,
+                            maxLines: 1, overflow: TextOverflow.ellipsis),
+                        subtitle: Text('${d.meta.category} · $dateStr'),
+                        trailing: const Icon(Icons.chevron_right),
+                        onTap: () {
+                          final postPath =
+                              '/posts/${Uri.encodeComponent(d.meta.slug)}';
+                          // 주소 표시줄을 포스트 경로로 즉시 갱신
+                          web.window.history
+                              .pushState(null, d.meta.title, postPath);
+                          setState(() {
+                            isShowPostDetail = true;
+                            currentPost = d;
+                          });
+                        },
+                      );
+                    },
+                  );
+                },
+              )
+            : _postDetail(currentPost);
+      } else if (category != null && category == 'TIL') {
+        return const Center(child: Text('TIL 카테고리 페이지는 미구현 상태입니다.'));
+      } else {
+        return const Center(child: Text('카테고리를 선택해주세요.'));
+      }
     }
 
     return Scaffold(
         appBar: !isShowPostDetail
             ? AppBar(
+                elevation: 0,
                 title: const Text('Blog Posts'),
+                shape: const Border(
+                  bottom: BorderSide(color: Colors.grey, width: 0.5),
+                ),
               )
             : AppBar(
                 elevation: 0,
@@ -198,6 +297,9 @@ class _PostListPageState extends State<PostListPage> {
                 shadowColor: Colors.transparent,
                 surfaceTintColor: Colors.transparent,
                 forceMaterialTransparency: true,
+                shape: const Border(
+                  bottom: BorderSide(color: Colors.grey, width: 0.5),
+                ),
                 title: Text(currentPost.meta.title),
                 leading: BackButton(
                   onPressed: () => setState(() {
@@ -223,18 +325,18 @@ class _PostListPageState extends State<PostListPage> {
                   width: width * 0.3,
                   child: Column(
                     children: [
-                      _buildPanel(),
-                      ListTile(
-                        title: const Text('TIL (Today I Learned)'),
-                        onTap: () {
-                          // TODO: Implement TIL navigation
-                        },
+                      buildPanel(),
+                      const ListTile(
+                        title: Center(child: Text('Tags')),
                       ),
+                      Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: buildTagChips()),
                     ],
                   ),
                 ),
                 VerticalDivider(color: Colors.grey[400], width: 3),
-                Expanded(child: _buildPostList('All')),
+                Expanded(child: buildPostList('All')),
               ],
             );
           } else {
@@ -244,24 +346,19 @@ class _PostListPageState extends State<PostListPage> {
                   visible: !isShowPostDetail,
                   child: Column(
                     children: [
-                      _buildPanel(),
-                      ListTile(
-                        title: const Text('TIL (Today I Learned)'),
-                        onTap: () {
-                          // TODO: Implement TIL navigation
-                        },
+                      buildPanel(),
+                      const ListTile(
+                        title: Center(child: Text('Tags')),
                       ),
+                      Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: buildTagChips()),
                     ],
                   ),
                 ),
                 Divider(color: Colors.grey[400], height: 3),
                 SizedBox(height: 16),
-                Text('Recent Posts',
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20,
-                        color: Colors.grey[700])),
-                Expanded(child: _buildPostList('All')),
+                Expanded(child: buildPostList('All')),
               ],
             );
           }
