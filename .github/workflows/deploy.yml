@@ -25,6 +25,11 @@ jobs:
       - name: Build Flutter web
         run: flutter build web
 
+      - name: Copy posts to build/web/assets
+        run: |
+          mkdir -p build/web/assets
+          cp -r posts build/web/assets/
+
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
