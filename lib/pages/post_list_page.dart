@@ -82,7 +82,7 @@ class _PostListPageState extends State<PostListPage> {
 
   void _copyCurrentPostUrlToClipboard() {
     try {
-      final postPath = '/post/${currentPost.meta.slug}';
+      final postPath = 'post/${currentPost.meta.slug}';
       web.window.history.pushState(null, '', postPath);
 
       final postUrl = web.window.location.href;
@@ -264,7 +264,7 @@ class _PostListPageState extends State<PostListPage> {
                         trailing: const Icon(Icons.chevron_right),
                         onTap: () {
                           final postPath =
-                              '/post/${Uri.encodeComponent(d.meta.slug)}';
+                              'post/${Uri.encodeComponent(d.meta.slug)}';
                           // 주소 표시줄을 포스트 경로로 즉시 갱신
                           web.window.history
                               .pushState(null, d.meta.title, postPath);
