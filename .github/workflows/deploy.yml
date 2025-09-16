@@ -25,11 +25,10 @@ jobs:
       - name: Build Flutter web
         run: flutter build web
 
-      - name: Copy posts to build/web/assets
+      - name: Build Flutter Web (user page => base-href "/")
         run: |
-              mkdir -p build/web/post
-              cp -r post/. build/web/post/
-              ls -al build/web/post || true
+          flutter build web --release --base-href /
+          cp build/web/index.html build/web/404.html
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
