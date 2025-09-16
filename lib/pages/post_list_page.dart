@@ -53,7 +53,7 @@ class _PostListPageState extends State<PostListPage> {
   void initState() {
     super.initState();
     future = loadMarkdownDocs(context);
-    df = DateFormat('yyyy-MM-dd'); // 한국어 로케일이면 intl 초기화 추가 가능
+    df = DateFormat('yyyy-MM-dd');
 
     future.then((docs) {
       final cats = docs
@@ -71,19 +71,64 @@ class _PostListPageState extends State<PostListPage> {
         tags = tagList;
         _data = generateItems(categories);
       });
+
+      // (4) 초기 진입 URL 하이드레이션
+      _hydrateFromUrl(docs);
     }).catchError((e) {
       debugPrint('load docs error: $e');
     });
+  }
+
+  // (4) 딥링크/새로고침 시 URL로부터 상태 복원
+  void _hydrateFromUrl(List<MdDoc> docs) {
+    try {
+      final path = web.window.location.pathname; // 예: /post/hello-world
+      if (path.startsWith('/post/')) {
+        final slug = Uri.decodeComponent(path.substring('/post/'.length));
+        final doc = docs.firstWhere(
+          (d) => d.meta.slug == slug,
+          orElse: () => MdDoc.empty(), // 필요 시 empty 생성자 또는 null 처리로 대체
+        );
+        if (!doc.isEmpty) {
+          setState(() {
+            isShowPostDetail = true;
+            currentPost = doc;
+          });
+          return;
+        }
+      } else if (path.startsWith('/category/')) {
+        final cat = Uri.decodeComponent(path.substring('/category/'.length));
+        setState(() {
+          _selectedCategory = cat;
+          _selectedTag = null;
+          isShowPostDetail = false;
+        });
+        return;
+      } else if (path.startsWith('/tag/')) {
+        final tag = Uri.decodeComponent(path.substring('/tag/'.length));
+        setState(() {
+          _selectedTag = tag;
+          _selectedCategory = null;
+          isShowPostDetail = false;
+        });
+        return;
+      } else {
+        // '/', 기타 경로: 기본 상태
+      }
+    } catch (e, st) {
+      debugPrint('hydrateFromUrl 실패: $e\n$st');
+    }
   }
 
   void _launchURLInNewTab(String url) {
     web.window.open(url, '_blank');
   }
 
+  // (1) 절대경로로 통일 + 공유 시 URL 복사
   void _copyCurrentPostUrlToClipboard() {
     try {
-      final postPath = 'post/${currentPost.meta.slug}';
-      web.window.history.pushState(null, '', postPath);
+      final postPath = '/post/${Uri.encodeComponent(currentPost.meta.slug)}';
+      web.window.history.pushState(null, currentPost.meta.title, postPath);
 
       final postUrl = web.window.location.href;
       Clipboard.setData(ClipboardData(text: postUrl));
@@ -135,8 +180,9 @@ class _PostListPageState extends State<PostListPage> {
     Widget buildPanel() {
       return ExpansionPanelList(
         expansionCallback: (int index, bool isExpanded) {
+          // (3) 토글 정상화
           setState(() {
-            _data[index].isExpanded = isExpanded;
+            _data[index].isExpanded = !isExpanded;
           });
         },
         children: _data.map<ExpansionPanel>((Item item) {
@@ -162,7 +208,8 @@ class _PostListPageState extends State<PostListPage> {
                               ? '/'
                               : '/category/${Uri.encodeComponent(value)}';
                           try {
-                            web.window.history.pushState(null, value, path);
+                            web.window.history
+                                .pushState(null, value, path); // (1) 절대경로
                           } catch (e) {
                             debugPrint('history pushState 실패: $e');
                           }
@@ -205,7 +252,8 @@ class _PostListPageState extends State<PostListPage> {
                         ? '/category/${Uri.encodeComponent(_selectedCategory!)}'
                         : '/');
                 try {
-                  web.window.history.pushState(null, _selectedTag!, path);
+                  // (2) 제목에 널 강제 제거
+                  web.window.history.pushState(null, v ? t : 'Posts', path);
                 } catch (e) {
                   debugPrint('history pushState 실패: $e');
                 }
@@ -218,8 +266,6 @@ class _PostListPageState extends State<PostListPage> {
 
     // 포스트 리스트
     Widget buildPostList(String? category) {
-      // category: All, Language, Platform, Dev, Life, Book_Review
-      // tag: TIL, 등등...
       if (category != null && category == 'All') {
         return !isShowPostDetail
             ? FutureBuilder<List<MdDoc>>(
@@ -254,8 +300,11 @@ class _PostListPageState extends State<PostListPage> {
                           ? df.format(d.meta.date!)
                           : '날짜 정보 없음';
                       return ListTile(
-                        title: Text(d.meta.title,
-                            maxLines: 1, overflow: TextOverflow.ellipsis),
+                        title: Text(
+                          d.meta.title,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
                         subtitle: Text(
                           d.meta.tag.isNotEmpty
                               ? '${d.meta.category} · ${d.meta.tag} · $dateStr'
@@ -263,11 +312,15 @@ class _PostListPageState extends State<PostListPage> {
                         ),
                         trailing: const Icon(Icons.chevron_right),
                         onTap: () {
+                          // (1) 절대경로로 통일
                           final postPath =
-                              'post/${Uri.encodeComponent(d.meta.slug)}';
-                          // 주소 표시줄을 포스트 경로로 즉시 갱신
-                          web.window.history
-                              .pushState(null, d.meta.title, postPath);
+                              '/post/${Uri.encodeComponent(d.meta.slug)}';
+                          try {
+                            web.window.history
+                                .pushState(null, d.meta.title, postPath);
+                          } catch (e) {
+                            debugPrint('history pushState 실패: $e');
+                          }
                           setState(() {
                             isShowPostDetail = true;
                             currentPost = d;
@@ -287,85 +340,92 @@ class _PostListPageState extends State<PostListPage> {
     }
 
     return Scaffold(
-        appBar: !isShowPostDetail
-            ? AppBar(
-                elevation: 0,
-                title: const Text('Blog Posts'),
-                shape: const Border(
-                  bottom: BorderSide(color: Colors.grey, width: 0.5),
-                ),
-              )
-            : AppBar(
-                elevation: 0,
-                scrolledUnderElevation: 0,
-                shadowColor: Colors.transparent,
-                surfaceTintColor: Colors.transparent,
-                forceMaterialTransparency: true,
-                shape: const Border(
-                  bottom: BorderSide(color: Colors.grey, width: 0.5),
-                ),
-                title: Text(currentPost.meta.title),
-                leading: BackButton(
-                  onPressed: () => setState(() {
-                    isShowPostDetail = false;
-                    web.window.history.pushState(null, 'Post', '/');
-                  }),
-                ),
-                actions: [
-                  IconButton(
-                    icon: const Icon(Icons.share),
-                    tooltip: 'Share this Post',
-                    onPressed: _copyCurrentPostUrlToClipboard,
-                  ),
-                ],
+      appBar: !isShowPostDetail
+          ? AppBar(
+              elevation: 0,
+              title: const Text('Blog Posts'),
+              shape: const Border(
+                bottom: BorderSide(color: Colors.grey, width: 0.5),
               ),
-        body: LayoutBuilder(
-            builder: (BuildContext context, BoxConstraints constraints) {
-          double width = constraints.maxWidth;
-          if (width > 600) {
-            return Row(
-              children: [
-                SizedBox(
-                  width: width * 0.3,
-                  child: Column(
-                    children: [
-                      buildPanel(),
-                      const ListTile(
-                        title: Center(child: Text('Tags')),
-                      ),
-                      Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: buildTagChips()),
-                    ],
-                  ),
+            )
+          : AppBar(
+              elevation: 0,
+              scrolledUnderElevation: 0,
+              shadowColor: Colors.transparent,
+              surfaceTintColor: Colors.transparent,
+              forceMaterialTransparency: true,
+              shape: const Border(
+                bottom: BorderSide(color: Colors.grey, width: 0.5),
+              ),
+              title: Text(currentPost.meta.title),
+              leading: BackButton(
+                onPressed: () => setState(() {
+                  isShowPostDetail = false;
+                  try {
+                    web.window.history.pushState(null, 'Post', '/'); // (1)
+                  } catch (e) {
+                    debugPrint('history pushState 실패: $e');
+                  }
+                }),
+              ),
+              actions: [
+                IconButton(
+                  icon: const Icon(Icons.share),
+                  tooltip: 'Share this Post',
+                  onPressed: _copyCurrentPostUrlToClipboard,
                 ),
-                VerticalDivider(color: Colors.grey[400], width: 3),
-                Expanded(child: buildPostList('All')),
               ],
-            );
-          } else {
-            return Column(
-              children: [
-                Visibility(
-                  visible: !isShowPostDetail,
-                  child: Column(
-                    children: [
-                      buildPanel(),
-                      const ListTile(
-                        title: Center(child: Text('Tags')),
-                      ),
-                      Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: buildTagChips()),
-                    ],
-                  ),
+            ),
+      body: LayoutBuilder(
+          builder: (BuildContext context, BoxConstraints constraints) {
+        double width = constraints.maxWidth;
+        if (width > 600) {
+          return Row(
+            children: [
+              SizedBox(
+                width: width * 0.3,
+                child: Column(
+                  children: [
+                    buildPanel(),
+                    const ListTile(
+                      title: Center(child: Text('Tags')),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: buildTagChips(),
+                    ),
+                  ],
                 ),
-                Divider(color: Colors.grey[400], height: 3),
-                SizedBox(height: 16),
-                Expanded(child: buildPostList('All')),
-              ],
-            );
-          }
-        }));
+              ),
+              VerticalDivider(color: Colors.grey[400], width: 3),
+              Expanded(child: buildPostList('All')),
+            ],
+          );
+        } else {
+          return Column(
+            children: [
+              Visibility(
+                visible: !isShowPostDetail,
+                child: Column(
+                  children: [
+                    buildPanel(),
+                    const ListTile(
+                      title: Center(child: Text('Tags')),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: buildTagChips(),
+                    ),
+                  ],
+                ),
+              ),
+              Divider(color: Colors.grey[400], height: 3),
+              const SizedBox(height: 16),
+              Expanded(child: buildPostList('All')),
+            ],
+          );
+        }
+      }),
+    );
   }
 }
