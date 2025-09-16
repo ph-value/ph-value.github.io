@@ -95601,7 +95601,7 @@ r.d.cb(new A.auM(r),t.P).kC(new A.auN())},
 a8w(){var s,r,q,p,o,n
 try{o=this.r
 o===$&&A.c()
-s="/posts/"+o.b.e
+s="/post/"+o.b.e
 o=self
 o.window.history.pushState(null,"",s)
 r=o.window.location.href
@@ -95774,7 +95774,7 @@ return A.aCd(new A.auw(this.b,p),!1,A.dC(s.length!==0?o+s+" \xb7 "+r:o+r,q,q,q,q
 $S:637}
 A.auw.prototype={
 $0(){var s=this.b,r=s.b,q=A.hg(B.cu,r.e,B.H,!1)
-self.window.history.pushState(null,r.a,"/posts/"+q)
+self.window.history.pushState(null,r.a,"/post/"+q)
 q=this.a
 q.a8(new A.auv(q,s))},
 $S:0}
@@ -95789,7 +95789,7 @@ return s.a8(new A.aul(s))},
 $S:0}
 A.aul.prototype={
 $0(){this.a.f=!1
-self.window.history.pushState(null,"Posts","/")},
+self.window.history.pushState(null,"Post","/")},
 $S:0}
 A.auH.prototype={
 $2(a,b){var s,r=this,q=null,p=b.b,o=r.b,n=r.c,m=t.p,l=r.d
