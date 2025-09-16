@@ -27,8 +27,8 @@ jobs:
 
       - name: Copy posts to build/web/assets
         run: |
-          mkdir -p build/web/asset/post
-          cp -a post/. build/web/asset/post/
+          mkdir -p build/web/assets/post
+          cp -a post/. build/web/assets/post/
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
