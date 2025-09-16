@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!--
+      If you are serving your web app in a path other than the root, change the
+      href value below to reflect the base path you are serving from.
+
+      The path provided below has to start and end with a slash "/" in order for
+      it to work correctly.
+
+      For more details:
+      * https://developer.mozilla.org/en-US/docs/Web/HTML/Element/base
+
+      This is a placeholder for base href that will be replaced by the value of
+      the `--base-href` argument provided to `flutter build`.
+    -->
+    <base href="/">
+
+    <meta charset="UTF-8">
+    <meta content="IE=Edge" http-equiv="X-UA-Compatible">
+    <meta name="description" content="This is a sando's homepage.">
+
+    <!-- iOS meta tags & icons -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="sando_diary">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="favicon.ico"/>
+
+    <title>sando_diary</title>
+    <link rel="manifest" href="manifest.json">
+
+    <!-- Loading Animation -->
+    <style>
+       /* 브라우저 기본 마진, 패딩 제거 및 스크롤바 문제 해결 */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      html, body {
+        height: 100%;
+        overflow: hidden; /* 스크롤바가 생기지 않도록 */
+      }
+
+      /* 로딩 화면 스타일 */
+      #loading-screen {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: white;
+        z-index: 9999;
+      }
+
+      /* GIF 크기 조정 */
+      #loading-screen img {
+        width: 300px; /* 원하는 크기로 조정 */
+        height: 300px; /* 원하는 크기로 조정 */
+        max-width: 100%;
+        max-height: 100%;
+        display: block;
+      }
+
+    </style>
+</head>
+<body>
+<div id="loading-screen">
+    <img src="assets/loading_animation.gif" alt="Loading..."/>
+</div>
+
+<script>
+      window.onload = function() {
+        var loadingScreen = document.getElementById('loading-screen');
+        var loadingGif = document.getElementById('loading-gif');
+
+        // 이미지 로드 완료 시 중앙 위치 재설정 (필요한 경우)
+        loadingGif.onload = function() {
+          loadingScreen.style.display = 'flex'; // 이 시점에 중앙에 맞게 표시
+        };
+      };
+
+
+      window.addEventListener('flutter-first-frame', function () {
+        var loadingScreen = document.getElementById('loading-screen');
+        if (loadingScreen) {
+          loadingScreen.style.display = 'none';
+        }
+      });
+
+
+</script>
+<script src="flutter_bootstrap.js" async></script>
+</body>
+</html>
