@@ -44,27 +44,40 @@ class PostsRightListPane extends StatelessWidget {
           return const Center(child: Text('문서가 없습니다.'));
         }
 
-        return ListView.separated(
-          key: const PageStorageKey('posts-list'),
-          itemCount: docs.length,
-          separatorBuilder: (_, __) => const Divider(height: 1),
-          itemBuilder: (context, i) {
-            final d = docs[i];
-            return ListTile(
-              title: Text(d.meta.title,
-                  maxLines: 1, overflow: TextOverflow.ellipsis),
-              subtitle: Text(d.meta.category +
-                  (d.meta.tags.isNotEmpty ? ' · ${d.meta.tags.join(', ')}' : '')),
-              trailing: const Icon(Icons.chevron_right),
-              onTap: () => context.push(Uri(
-                pathSegments: ['', 'posts', d.meta.slug],
-                queryParameters: {
-                  if (category != null) 'category': category!,
-                  if (tag != null) 'tag': tag!,
-                },
-              ).toString()),
-            );
-          },
+        return Material(
+          type: MaterialType.transparency,
+          clipBehavior: Clip.hardEdge,
+          child: Theme(
+            data: Theme.of(context).copyWith(
+              splashFactory: NoSplash.splashFactory,
+              highlightColor: Colors.transparent,
+              listTileTheme: const ListTileThemeData(
+                contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              ),
+            ),
+            child: ListView.separated(
+              key: const PageStorageKey('posts-list'),
+              itemCount: docs.length,
+              separatorBuilder: (_, __) => const Divider(height: 1),
+              itemBuilder: (context, i) {
+                final d = docs[i];
+                return ListTile(
+                  title: Text(d.meta.title,
+                      maxLines: 1, overflow: TextOverflow.ellipsis),
+                  subtitle: Text(d.meta.category +
+                      (d.meta.tags.isNotEmpty ? ' · ${d.meta.tags.join(', ')}' : '')),
+                  trailing: const Icon(Icons.chevron_right),
+                  onTap: () => context.push(Uri(
+                    pathSegments: ['', 'posts', d.meta.slug],
+                    queryParameters: {
+                      if (category != null) 'category': category!,
+                      if (tag != null) 'tag': tag!,
+                    },
+                  ).toString()),
+                );
+              },
+            ),
+          ),
         );
       },
     );
