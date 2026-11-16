@@ -56,8 +56,13 @@ class PostsRightListPane extends StatelessWidget {
               subtitle: Text(d.meta.category +
                   (d.meta.tags.isNotEmpty ? ' · ${d.meta.tags.join(', ')}' : '')),
               trailing: const Icon(Icons.chevron_right),
-              onTap: () =>
-                  context.push('/posts/${Uri.encodeComponent(d.meta.slug)}'),
+              onTap: () => context.push(Uri(
+                pathSegments: ['', 'posts', d.meta.slug],
+                queryParameters: {
+                  if (category != null) 'category': category!,
+                  if (tag != null) 'tag': tag!,
+                },
+              ).toString()),
             );
           },
         );
