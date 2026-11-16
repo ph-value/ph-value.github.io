@@ -19,14 +19,10 @@ class PostsShell extends StatelessWidget {
         final isWide = c.maxWidth > 600;
 
         if (!isWide) {
-          // 내부 Expanded/ListView에 유한한 높이를 전달하고 본문 공간을 확보합니다.
-          final filtersHeight = (c.maxHeight * 0.4).clamp(0.0, 280.0).toDouble();
           return Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              SizedBox(
-                height: filtersHeight,
-                child: const _CategoriesAndTags(),
-              ),
+              const _CategoriesAndTags(compact: true),
               const Divider(height: 1),
               Expanded(child: child), // 우측 child에 해당(목록/상세)
             ],
@@ -52,17 +48,19 @@ class PostsShell extends StatelessWidget {
   }
 }
 
-/// 좌측 카테고리/태그 패널
-/// - 절대 Scaffold를 만들지 않음
-/// - 내부 스크롤은 반드시 Expanded로 감싼 ListView 하나만 사용
+/// 데스크톱 사이드 패널과 모바일의 간결한 필터 영역.
 class _CategoriesAndTags extends StatefulWidget {
-  const _CategoriesAndTags();
+  final bool compact;
+
+  const _CategoriesAndTags({this.compact = false});
 
   @override
   State<_CategoriesAndTags> createState() => _CategoriesAndTagsState();
 }
 
 class _CategoriesAndTagsState extends State<_CategoriesAndTags> {
+  bool _tagsExpanded = false;
+
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<List<MdDoc>>(
@@ -72,7 +70,12 @@ class _CategoriesAndTagsState extends State<_CategoriesAndTags> {
           return Center(child: Text('로드 실패: ${snapshot.error}'));
         }
         if (snapshot.connectionState != ConnectionState.done) {
-          return const Center(child: CircularProgressIndicator());
+          return const Center(
+            child: Padding(
+              padding: EdgeInsets.all(16),
+              child: CircularProgressIndicator(),
+            ),
+          );
         }
         return _buildPanel(context);
       },
@@ -99,6 +102,123 @@ class _CategoriesAndTagsState extends State<_CategoriesAndTags> {
     final cats = ['All', ...DocsRepo.instance.categories];
     final tags = DocsRepo.instance.tags;
 
+    void selectCategory(String category) {
+      context.go(category == 'All'
+          ? '/posts'
+          : '/category/${Uri.encodeComponent(category)}');
+    }
+
+    void selectTag(String tag, bool selected) {
+      if (selected) {
+        context.go('/tag/${Uri.encodeComponent(tag)}');
+      } else {
+        selectCategory(selectedCategory ?? 'All');
+      }
+    }
+
+    if (widget.compact) {
+      final orderedTags = [
+        if (selectedTag != null && tags.contains(selectedTag)) selectedTag,
+        ...tags.where((tag) => tag != selectedTag),
+      ];
+
+      Widget tagChip(String tag) => ChoiceChip(
+            label: Text(tag),
+            selected: tag == selectedTag,
+            onSelected: (selected) => selectTag(tag, selected),
+          );
+
+      return Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Text(
+              '카테고리',
+              style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                    fontWeight: FontWeight.w600,
+                  ),
+            ),
+            const SizedBox(height: 4),
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                children: cats
+                    .map((category) => Padding(
+                          padding: const EdgeInsets.only(right: 8),
+                          child: ChoiceChip(
+                            label: Text(category),
+                            selected: category == selectedCategory,
+                            onSelected: (_) => selectCategory(category),
+                          ),
+                        ))
+                    .toList(),
+              ),
+            ),
+            if (tags.isNotEmpty) ...[
+              const SizedBox(height: 4),
+              Text(
+                '태그',
+                style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                      fontWeight: FontWeight.w600,
+                    ),
+              ),
+              const SizedBox(height: 4),
+              if (_tagsExpanded)
+                ConstrainedBox(
+                  constraints: BoxConstraints(
+                    maxHeight: MediaQuery.sizeOf(context).height * 0.2,
+                  ),
+                  child: SingleChildScrollView(
+                    child: Wrap(
+                      spacing: 8,
+                      runSpacing: 4,
+                      children: orderedTags.map(tagChip).toList(),
+                    ),
+                  ),
+                )
+              else
+                Row(
+                  children: [
+                    Expanded(
+                      child: SingleChildScrollView(
+                        key: ValueKey(selectedTag),
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                          children: orderedTags
+                              .take(3)
+                              .map((tag) => Padding(
+                                    padding: const EdgeInsets.only(right: 8),
+                                    child: tagChip(tag),
+                                  ))
+                              .toList(),
+                        ),
+                      ),
+                    ),
+                    if (tags.length > 3)
+                      TextButton.icon(
+                        onPressed: () => setState(() => _tagsExpanded = true),
+                        icon: const Icon(Icons.expand_more),
+                        label: const Text('더 보기'),
+                      ),
+                  ],
+                ),
+              if (_tagsExpanded)
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: TextButton.icon(
+                    onPressed: () => setState(() => _tagsExpanded = false),
+                    icon: const Icon(Icons.expand_less),
+                    label: const Text('접기'),
+                  ),
+                ),
+            ],
+          ],
+        ),
+      );
+    }
+
     return Padding(
       padding: const EdgeInsets.all(8),
       child: Column(
@@ -117,13 +237,7 @@ class _CategoriesAndTagsState extends State<_CategoriesAndTags> {
                     title: Text(v),
                     selected: selected,
                     trailing: selected ? const Icon(Icons.check) : null,
-                    onTap: () {
-                      if (v == 'All') {
-                        context.go('/posts');
-                      } else {
-                        context.go('/category/${Uri.encodeComponent(v)}');
-                      }
-                    },
+                    onTap: () => selectCategory(v),
                   );
                 }),
                 const Divider(height: 24),
@@ -147,17 +261,7 @@ class _CategoriesAndTagsState extends State<_CategoriesAndTags> {
                         return ChoiceChip(
                           label: Text(t),
                           selected: sel,
-                          onSelected: (v) {
-                            if (v) {
-                              context.go('/tag/${Uri.encodeComponent(t)}');
-                            } else if (selectedCategory != null &&
-                                selectedCategory != 'All') {
-                              context.go(
-                                  '/category/${Uri.encodeComponent(selectedCategory)}');
-                            } else {
-                              context.go('/posts');
-                            }
-                          },
+                          onSelected: (v) => selectTag(t, v),
                         );
                       }).toList(),
                     ),
