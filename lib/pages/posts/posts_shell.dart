@@ -59,11 +59,23 @@ class _CategoriesAndTags extends StatefulWidget {
 }
 
 class _CategoriesAndTagsState extends State<_CategoriesAndTags> {
-  String? _selectedCategory = 'All';
-  String? _selectedTag;
-
   @override
   Widget build(BuildContext context) {
+    return FutureBuilder<List<MdDoc>>(
+      future: DocsRepo.instance.load(context),
+      builder: (context, snapshot) {
+        if (snapshot.hasError) {
+          return Center(child: Text('로드 실패: ${snapshot.error}'));
+        }
+        if (snapshot.connectionState != ConnectionState.done) {
+          return const Center(child: CircularProgressIndicator());
+        }
+        return _buildPanel(context);
+      },
+    );
+  }
+
+  Widget _buildPanel(BuildContext context) {
     final uri = GoRouterState.of(context).uri;
     final seg = uri.pathSegments;
 

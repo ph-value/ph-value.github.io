@@ -6,7 +6,7 @@ import 'package:flutter/widgets.dart';
 class PostMeta {
   final String title;
   final String category;
-  final String tag;
+  final List<String> tags;
   final DateTime? date;
 
   /// slug는 'raw 문자열'로 저장합니다(여기선 인코딩하지 않음).
@@ -15,7 +15,7 @@ class PostMeta {
   const PostMeta({
     required this.title,
     required this.category,
-    required this.tag,
+    required this.tags,
     this.date,
     required this.slug,
   });
@@ -24,7 +24,7 @@ class PostMeta {
   const PostMeta._empty()
       : title = '',
         category = 'Uncategorized',
-        tag = '',
+        tags = const [],
         date = null,
         slug = '';
 
@@ -35,7 +35,14 @@ class PostMeta {
   factory PostMeta.fromJson(Map<String, dynamic> json) {
     final rawTitle = (json['title'] ?? '').toString().trim();
     final rawCategory = (json['category'] ?? 'Uncategorized').toString().trim();
-    final rawTag = (json['tag'] ?? '').toString().trim();
+    // 기존 단일 tag와 YAML 태그 목록을 모두 지원합니다.
+    final rawTags = json['tags'] ?? json['tag'];
+    final tagValues = rawTags is List ? rawTags : [rawTags];
+    final tags = List<String>.unmodifiable(tagValues
+        .whereType<String>()
+        .map((tag) => tag.trim())
+        .where((tag) => tag.isNotEmpty)
+        .toSet());
     final rawDate = (json['date'] ?? '').toString().trim();
 
     DateTime? dt;
@@ -53,7 +60,7 @@ class PostMeta {
     return PostMeta(
       title: rawTitle,
       category: rawCategory.isNotEmpty ? rawCategory : 'Uncategorized',
-      tag: rawTag,
+      tags: tags,
       date: dt,
       slug: rawSlug,
     );
@@ -70,7 +77,7 @@ class PostMeta {
         date: date,
         // raw slug가 비어 있으면 폴백 사용(파일명/제목 기반 slugify)
         slug: (slug.isNotEmpty ? slug : slugify(fallbackSlug)),
-        tag: tag.isNotEmpty ? tag : '',
+        tags: tags,
       );
 }
 
