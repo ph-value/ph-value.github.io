@@ -93,7 +93,7 @@ class _ListWithFiltersState extends State<_ListWithFilters> {
     // 필터 적용
     var filtered = widget.docs;
     if (_selectedTag != null && _selectedTag!.isNotEmpty) {
-      filtered = filtered.where((d) => d.meta.tag == _selectedTag).toList();
+      filtered = filtered.where((d) => d.meta.tags.contains(_selectedTag)).toList();
     } else if (_selectedCategory != null && _selectedCategory != 'All') {
       filtered =
           filtered.where((d) => d.meta.category == _selectedCategory).toList();
@@ -183,8 +183,8 @@ class _ListWithFiltersState extends State<_ListWithFilters> {
             title: Text(d.meta.title,
                 maxLines: 1, overflow: TextOverflow.ellipsis),
             subtitle: Text(
-              d.meta.tag.isNotEmpty
-                  ? '${d.meta.category} · ${d.meta.tag} · $dateStr'
+              d.meta.tags.isNotEmpty
+                  ? '${d.meta.category} · ${d.meta.tags.join(', ')} · $dateStr'
                   : '${d.meta.category} · $dateStr',
             ),
             trailing: const Icon(Icons.chevron_right),

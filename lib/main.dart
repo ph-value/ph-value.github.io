@@ -91,6 +91,15 @@ class MyApp extends StatelessWidget {
 
     return MaterialApp.router(
       debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        pageTransitionsTheme: PageTransitionsTheme(
+          builders: {
+            // 모든 플랫폼과 라우트에서 동일한 전환 설정을 공유합니다.
+            for (final platform in TargetPlatform.values)
+              platform: const PredictiveBackPageTransitionsBuilder(),
+          },
+        ),
+      ),
       routerConfig: router,
     );
   }

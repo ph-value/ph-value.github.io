@@ -65,50 +65,60 @@ class PostsRightDetailPane extends StatelessWidget {
             );
           }
 
-          return Padding(
-            padding: const EdgeInsets.all(16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    IconButton(
-                      icon: const Icon(Icons.chevron_left),
-                      onPressed: () => context.go('/posts'),
-                      tooltip: '뒤로',
-                    ),
-                    Text(doc.meta.title,
-                        style: Theme.of(context).textTheme.titleLarge),
-                    // 공유 버튼
-                    IconButton(
-                      icon: const Icon(Icons.share),
-                      onPressed: copyUrl,
-                      tooltip: '공유',
-                    ),
-                  ],
-                ),
-                // 상단 헤더 영역(고정 높이)
-
-                const SizedBox(height: 8),
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: Text(
-                    'category: ${doc.meta.category}'
-                    '${doc.meta.date != null ? ' · ${DateFormat('yyyy-MM-dd').format(doc.meta.date!)}' : ''}',
-                    style: Theme.of(context).textTheme.bodySmall,
+          return Material(
+            type: MaterialType.transparency,
+            clipBehavior: Clip.hardEdge,
+            child: Padding(
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      IconButton(
+                        icon: const Icon(Icons.chevron_left),
+                        onPressed: () {
+                          if (context.canPop()) {
+                            context.pop();
+                          } else {
+                            context.go('/posts');
+                          }
+                        },
+                        tooltip: '뒤로',
+                      ),
+                      Text(doc.meta.title,
+                          style: Theme.of(context).textTheme.titleLarge),
+                      // 공유 버튼
+                      IconButton(
+                        icon: const Icon(Icons.share),
+                        onPressed: copyUrl,
+                        tooltip: '공유',
+                      ),
+                    ],
                   ),
-                ),
-                const Divider(height: 24),
+                  // 상단 헤더 영역(고정 높이)
 
-                // 본문은 남은 공간을 차지하고 내부에서만 스크롤
-                Expanded(
-                  child: MarkdownWidget(
-                    data: doc.body,
-                    // (필요 시) config: ...
+                  const SizedBox(height: 8),
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: Text(
+                      'category: ${doc.meta.category}'
+                      '${doc.meta.date != null ? ' · ${DateFormat('yyyy-MM-dd').format(doc.meta.date!)}' : ''}',
+                      style: Theme.of(context).textTheme.bodySmall,
+                    ),
                   ),
-                ),
-              ],
+                  const Divider(height: 24),
+
+                  // 본문은 남은 공간을 차지하고 내부에서만 스크롤
+                  Expanded(
+                    child: MarkdownWidget(
+                      data: doc.body,
+                      // (필요 시) config: ...
+                    ),
+                  ),
+                ],
+              ),
             ),
           );
         });

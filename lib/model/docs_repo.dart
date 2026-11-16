@@ -32,7 +32,7 @@ class DocsRepo {
         .toList()
       ..sort();
     final tagList = docs
-        .map((d) => d.meta.tag)
+        .expand((d) => d.meta.tags)
         .where((t) => t.isNotEmpty)
         .toSet()
         .toList()

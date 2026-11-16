@@ -59,21 +59,37 @@ class _CategoriesAndTags extends StatefulWidget {
 }
 
 class _CategoriesAndTagsState extends State<_CategoriesAndTags> {
-  String? _selectedCategory = 'All';
-  String? _selectedTag;
-
   @override
   Widget build(BuildContext context) {
+    return FutureBuilder<List<MdDoc>>(
+      future: DocsRepo.instance.load(context),
+      builder: (context, snapshot) {
+        if (snapshot.hasError) {
+          return Center(child: Text('로드 실패: ${snapshot.error}'));
+        }
+        if (snapshot.connectionState != ConnectionState.done) {
+          return const Center(child: CircularProgressIndicator());
+        }
+        return _buildPanel(context);
+      },
+    );
+  }
+
+  Widget _buildPanel(BuildContext context) {
     final uri = GoRouterState.of(context).uri;
     final seg = uri.pathSegments;
 
-    // 현재 선택 계산
+    // 상세 화면에서도 글을 열기 전 목록의 필터를 유지합니다.
+    final isDetail = seg.length >= 2 && seg[0] == 'posts';
     String? selectedCategory = (seg.length >= 2 && seg[0] == 'category')
         ? Uri.decodeComponent(seg[1])
-        : (seg.isNotEmpty && seg[0] == 'posts' ? 'All' : null);
+        : isDetail
+            ? uri.queryParameters['category'] ??
+                (uri.queryParameters.containsKey('tag') ? null : 'All')
+            : (seg.isNotEmpty && seg[0] == 'posts' ? 'All' : null);
     String? selectedTag = (seg.length >= 2 && seg[0] == 'tag')
         ? Uri.decodeComponent(seg[1])
-        : null;
+        : (isDetail ? uri.queryParameters['tag'] : null);
 
     // 목록 데이터
     final cats = ['All', ...DocsRepo.instance.categories];
