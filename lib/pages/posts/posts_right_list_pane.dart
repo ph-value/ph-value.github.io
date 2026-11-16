@@ -57,7 +57,7 @@ class PostsRightListPane extends StatelessWidget {
                   (d.meta.tags.isNotEmpty ? ' · ${d.meta.tags.join(', ')}' : '')),
               trailing: const Icon(Icons.chevron_right),
               onTap: () =>
-                  context.go('/posts/${Uri.encodeComponent(d.meta.slug)}'),
+                  context.push('/posts/${Uri.encodeComponent(d.meta.slug)}'),
             );
           },
         );

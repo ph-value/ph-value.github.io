@@ -75,7 +75,13 @@ class PostsRightDetailPane extends StatelessWidget {
                   children: [
                     IconButton(
                       icon: const Icon(Icons.chevron_left),
-                      onPressed: () => context.go('/posts'),
+                      onPressed: () {
+                        if (context.canPop()) {
+                          context.pop();
+                        } else {
+                          context.go('/posts');
+                        }
+                      },
                       tooltip: '뒤로',
                     ),
                     Text(doc.meta.title,
