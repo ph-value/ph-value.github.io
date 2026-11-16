@@ -2,7 +2,7 @@
 title: FVM으로 프로젝트별 Flutter 버전 고정하기 (Windows)
 date: 2026-11-16
 category: Flutter
-tag: FVM
+tag: [FVM, TIL]
 slug: flutter-fvm-local-version
 ---
 
