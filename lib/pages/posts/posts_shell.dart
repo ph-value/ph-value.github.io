@@ -19,10 +19,14 @@ class PostsShell extends StatelessWidget {
         final isWide = c.maxWidth > 600;
 
         if (!isWide) {
-          // 모바일: 좌측 패널은 상단 섹션으로, 본문은 아래 Expanded로
+          // 내부 Expanded/ListView에 유한한 높이를 전달하고 본문 공간을 확보합니다.
+          final filtersHeight = (c.maxHeight * 0.4).clamp(0.0, 280.0).toDouble();
           return Column(
             children: [
-              const _CategoriesAndTags(), // 상단(고정 높이 섹션)
+              SizedBox(
+                height: filtersHeight,
+                child: const _CategoriesAndTags(),
+              ),
               const Divider(height: 1),
               Expanded(child: child), // 우측 child에 해당(목록/상세)
             ],
