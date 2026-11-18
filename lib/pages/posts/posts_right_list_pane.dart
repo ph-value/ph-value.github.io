@@ -15,9 +15,9 @@ class PostsRightListPane extends StatelessWidget {
     String? tag;
 
     if (seg.length >= 2 && seg[0] == 'category') {
-      category = Uri.decodeComponent(seg[1]);
+      category = seg[1];
     } else if (seg.length >= 2 && seg[0] == 'tag') {
-      tag = Uri.decodeComponent(seg[1]);
+      tag = seg[1];
     } else if (seg.isNotEmpty && seg[0] == 'posts') {
       category = 'All';
     }
