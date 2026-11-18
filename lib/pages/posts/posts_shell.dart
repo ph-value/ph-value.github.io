@@ -89,13 +89,13 @@ class _CategoriesAndTagsState extends State<_CategoriesAndTags> {
     // 상세 화면에서도 글을 열기 전 목록의 필터를 유지합니다.
     final isDetail = seg.length >= 2 && seg[0] == 'posts';
     String? selectedCategory = (seg.length >= 2 && seg[0] == 'category')
-        ? Uri.decodeComponent(seg[1])
+        ? seg[1]
         : isDetail
             ? uri.queryParameters['category'] ??
                 (uri.queryParameters.containsKey('tag') ? null : 'All')
             : (seg.isNotEmpty && seg[0] == 'posts' ? 'All' : null);
     String? selectedTag = (seg.length >= 2 && seg[0] == 'tag')
-        ? Uri.decodeComponent(seg[1])
+        ? seg[1]
         : (isDetail ? uri.queryParameters['tag'] : null);
 
     // 목록 데이터
@@ -117,14 +117,10 @@ class _CategoriesAndTagsState extends State<_CategoriesAndTags> {
     }
 
     if (widget.compact) {
-      final orderedTags = [
-        if (selectedTag != null && tags.contains(selectedTag)) selectedTag,
-        ...tags.where((tag) => tag != selectedTag),
-      ];
-
       Widget tagChip(String tag) => ChoiceChip(
             label: Text(tag),
             selected: tag == selectedTag,
+            showCheckmark: true,
             onSelected: (selected) => selectTag(tag, selected),
           );
 
@@ -158,12 +154,18 @@ class _CategoriesAndTagsState extends State<_CategoriesAndTags> {
             ),
             if (tags.isNotEmpty) ...[
               const SizedBox(height: 4),
-              Text(
-                '태그',
-                style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                      fontWeight: FontWeight.w600,
-                    ),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: TextButton.icon(
+                  onPressed: () =>
+                      setState(() => _tagsExpanded = !_tagsExpanded),
+                  icon: Icon(
+                      _tagsExpanded ? Icons.expand_less : Icons.expand_more),
+                  label: Text(_tagsExpanded ? '태그 접기' : '태그 열기'),
+                ),
               ),
+              if (!_tagsExpanded && selectedTag != null)
+                Text('선택한 태그: $selectedTag'),
               const SizedBox(height: 4),
               if (_tagsExpanded)
                 ConstrainedBox(
@@ -174,43 +176,8 @@ class _CategoriesAndTagsState extends State<_CategoriesAndTags> {
                     child: Wrap(
                       spacing: 8,
                       runSpacing: 4,
-                      children: orderedTags.map(tagChip).toList(),
+                      children: tags.map(tagChip).toList(),
                     ),
-                  ),
-                )
-              else
-                Row(
-                  children: [
-                    Expanded(
-                      child: SingleChildScrollView(
-                        key: ValueKey(selectedTag),
-                        scrollDirection: Axis.horizontal,
-                        child: Row(
-                          children: orderedTags
-                              .take(3)
-                              .map((tag) => Padding(
-                                    padding: const EdgeInsets.only(right: 8),
-                                    child: tagChip(tag),
-                                  ))
-                              .toList(),
-                        ),
-                      ),
-                    ),
-                    if (tags.length > 3)
-                      TextButton.icon(
-                        onPressed: () => setState(() => _tagsExpanded = true),
-                        icon: const Icon(Icons.expand_more),
-                        label: const Text('더 보기'),
-                      ),
-                  ],
-                ),
-              if (_tagsExpanded)
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: TextButton.icon(
-                    onPressed: () => setState(() => _tagsExpanded = false),
-                    icon: const Icon(Icons.expand_less),
-                    label: const Text('접기'),
                   ),
                 ),
             ],
