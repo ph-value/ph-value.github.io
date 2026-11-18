@@ -118,7 +118,7 @@ class _CategoriesAndTagsState extends State<_CategoriesAndTags> {
 
     if (widget.compact) {
       Widget tagChip(String tag) => ChoiceChip(
-            label: Text(tag),
+            label: _TagLabel(tag),
             selected: tag == selectedTag,
             showCheckmark: true,
             onSelected: (selected) => selectTag(tag, selected),
@@ -226,7 +226,7 @@ class _CategoriesAndTagsState extends State<_CategoriesAndTags> {
                       children: tags.map((t) {
                         final sel = t == selectedTag;
                         return ChoiceChip(
-                          label: Text(t),
+                          label: _TagLabel(t),
                           selected: sel,
                           onSelected: (v) => selectTag(t, v),
                         );
@@ -238,6 +238,23 @@ class _CategoriesAndTagsState extends State<_CategoriesAndTags> {
           ),
         ],
       ),
+    );
+  }
+}
+
+/// Chip의 기본 한 줄/fade 제한 대신 가용 너비에 맞춰 태그를 줄바꿈합니다.
+class _TagLabel extends StatelessWidget {
+  final String text;
+
+  const _TagLabel(this.text);
+
+  @override
+  Widget build(BuildContext context) {
+    return DefaultTextStyle(
+      style: DefaultTextStyle.of(context).style,
+      softWrap: true,
+      overflow: TextOverflow.clip,
+      child: Text(text),
     );
   }
 }
