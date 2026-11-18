@@ -2,7 +2,7 @@
 title: 예제 마크다운 Test...!
 date: 2024-08-14
 category: Test
-tag: Example
+tag: [Example, 테스트01, 테스트02, 테스트03, 테스트04, 테스트05, 테스트06, 테스트07, 테스트08, 테스트09, 테스트10-긴-태그-이름-표시-확인]
 slug: example_markdown
 ---
 
