@@ -154,18 +154,22 @@ class _CategoriesAndTagsState extends State<_CategoriesAndTags> {
             ),
             if (tags.isNotEmpty) ...[
               const SizedBox(height: 4),
-              Align(
-                alignment: Alignment.centerLeft,
-                child: TextButton.icon(
-                  onPressed: () =>
-                      setState(() => _tagsExpanded = !_tagsExpanded),
-                  icon: Icon(
-                      _tagsExpanded ? Icons.expand_less : Icons.expand_more),
-                  label: Text(_tagsExpanded ? '태그 접기' : '태그 열기'),
-                ),
+              Wrap(
+                spacing: 8,
+                runSpacing: 4,
+                crossAxisAlignment: WrapCrossAlignment.center,
+                children: [
+                  TextButton.icon(
+                    onPressed: () =>
+                        setState(() => _tagsExpanded = !_tagsExpanded),
+                    icon: Icon(
+                        _tagsExpanded ? Icons.expand_less : Icons.expand_more),
+                    label: Text(_tagsExpanded ? '태그 접기' : '태그 열기'),
+                  ),
+                  if (!_tagsExpanded && selectedTag != null)
+                    tagChip(selectedTag),
+                ],
               ),
-              if (!_tagsExpanded && selectedTag != null)
-                Text('선택한 태그: $selectedTag'),
               const SizedBox(height: 4),
               if (_tagsExpanded)
                 ConstrainedBox(
